@@ -1,0 +1,132 @@
+{
+    "conductor": {
+        "Aluminum": {
+            "sigc": 38000000
+        },
+        "Carbon": {
+            "sigc": 30000
+        },
+        "Copper": {
+            "sigc": 58000000
+        },
+        "Gold": {
+            "sigc": 41000000
+        },
+        "Graphite": {
+            "sigc": 70000
+        },
+        "Iron": {
+            "sigc": 10000000
+        },
+        "Lead": {
+            "sigc": 5000000
+        },
+        "Nichrome": {
+            "sigc": 1000000
+        },
+        "Nickel": {
+            "sigc": 15000000
+        },
+        "Silver": {
+            "sigc": 62000000
+        },
+        "Solder": {
+            "sigc": 7000000
+        },
+        "Stainless Steel": {
+            "sigc": 1100000
+        },
+        "Tin": {
+            "sigc": 8800000
+        },
+        "Tungsten": {
+            "sigc": 18000000
+        }
+    },
+    "dielectric": {
+        "Air": {
+            "epd": 1.0005,
+            "Ebr": 3000000,
+            "sigd": 0,
+            "mur": 1.0000004
+        },
+        "Alumina": {
+            "epd": 9.9,
+            "Ebr": "None",
+            "sigd": "None",
+            "mur": 1
+        },
+        "Barium Titanate": {
+            "epd": 1200,
+            "Ebr": 7500000,
+            "sigd": "None",
+            "mur": 1
+        },
+        "Glass": {
+            "epd": 10,
+            "Ebr": 30000000,
+            "sigd": 0.000000000010,
+            "mur": 1
+        },
+        "Ice": {
+            "epd": 4.2,
+            "Ebr": "None",
+            "sigd": "None",
+            "mur": 1
+        },
+        "Mica": {
+            "epd": 5.4,
+            "Ebr": 200000000,
+            "sigd": 0.000000000000010,
+            "mur": 1
+        },
+        "Polyethylene": {
+            "epd": 2.26,
+            "Ebr": 47000000,
+            "sigd": 0.0000000000000010,
+            "mur": 1
+        },
+        "Polystyrene": {
+            "epd": 2.56,
+            "Ebr": 20000000,
+            "sigd": 0.00000000000000010,
+            "mur": 1
+        },
+        "Quartz (fused)": {
+            "epd": 3.8,
+            "Ebr": 30000000,
+            "sigd": 0.00000000000000010,
+            "mur": 1
+        },
+        "Silicon (pure)": {
+            "epd": 11.8,
+            "Ebr": "None",
+            "sigd": 0.00044,
+            "mur": 1
+        },
+        "Soil (dry)": {
+            "epd": 3.5,
+            "Ebr": "None",
+            "sigd": 0.002,
+            "mur": 1
+        },
+        "Teflon": {
+            "epd": 2.1,
+            "Ebr": 60000000,
+            "sigd": 0.000000000000010,
+            "mur": 1
+        },
+        "Water (distilled)": {
+            "epd": 81,
+            "Ebr": "None",
+            "sigd": 0.00010,
+            "mur": 1
+        },
+        "Seawater": {
+            "epd": 72,
+            "Ebr": "None",
+            "sigd": 5,
+            "mur": 1
+        }
+    }
+}
