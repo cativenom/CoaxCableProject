@@ -5,6 +5,7 @@ import sys
 import json
 from ui_main import Ui_MainWindow
 from solver import Solver
+from stubSolver import stubSolver
 
 MODERN_THEME = """
     QMainWindow { background-color: #1e1e2e; }
@@ -81,7 +82,6 @@ class CoaxSolver(QMainWindow):
 
 
 
-
     def solve(self):
         conductor=self.ui.conductor_select.currentText()
         diaelectric=self.ui.dielectric_select.currentText()
@@ -93,14 +93,18 @@ class CoaxSolver(QMainWindow):
         ReZl=self.ui.real_impedence.text()
         ImZl=self.ui.fake_impedence.text()
         freq=self.ui.freqlineEdit.text()
+        beta = (2*math.pi)/float(length)
+        
+        stub = stubSolver(impedance=float(ReZl), beta=beta, gamma=0,lumpedZ=None, length=float(length), short=True);
 
-    
+
         print("-------------- Solving --------------")
         print(f"{conductor} \n {diaelectric} \n {solve_type} \n {a} \n {b} \n {c} \n {length} \n {ReZl} \n {ImZl} \n {freq}")
         solver = Solver(str(conductor), str(diaelectric), str(solve_type), float(a), float(b), float(b), float(length), float(ReZl), float(ImZl), float(freq))
         Z_o = solver._char_impedance()
         self.ui.char_impedence_fake.setText(str(truncate(Z_o.imag)))
         self.ui.char_impedence_real.setText(str(truncate(Z_o.real)))
+        print(stub.input_impedance())
     
 
 
