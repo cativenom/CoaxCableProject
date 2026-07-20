@@ -240,20 +240,20 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_5.addWidget(self.label_12)
 
-        self.fuck_2 = QLineEdit(self.centralwidget)
-        self.fuck_2.setObjectName(u"fuck_2")
+        self.char_impedence_real = QLineEdit(self.centralwidget)
+        self.char_impedence_real.setObjectName(u"char_impedence_real")
 
-        self.horizontalLayout_5.addWidget(self.fuck_2)
+        self.horizontalLayout_5.addWidget(self.char_impedence_real)
 
         self.label_14 = QLabel(self.centralwidget)
         self.label_14.setObjectName(u"label_14")
 
         self.horizontalLayout_5.addWidget(self.label_14)
 
-        self.fuck = QLineEdit(self.centralwidget)
-        self.fuck.setObjectName(u"fuck")
+        self.char_impedence_fake = QLineEdit(self.centralwidget)
+        self.char_impedence_fake.setObjectName(u"char_impedence_fake")
 
-        self.horizontalLayout_5.addWidget(self.fuck)
+        self.horizontalLayout_5.addWidget(self.char_impedence_fake)
 
         self.label_13 = QLabel(self.centralwidget)
         self.label_13.setObjectName(u"label_13")
@@ -272,7 +272,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1096, 22))
+        self.menubar.setGeometry(QRect(0, 0, 1096, 20))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")

@@ -99,8 +99,8 @@ class CoaxSolver(QMainWindow):
         print(f"{conductor} \n {diaelectric} \n {solve_type} \n {a} \n {b} \n {c} \n {length} \n {ReZl} \n {ImZl} \n {freq}")
         solver = Solver(str(conductor), str(diaelectric), str(solve_type), float(a), float(b), float(b), float(length), float(ReZl), float(ImZl), float(freq))
         Z_o = solver._char_impedance()
-        self.ui.fuck.setText(str(truncate(Z_o.imag)))
-        self.ui.fuck_2.setText(str(truncate(Z_o.real)))
+        self.ui.char_impedence_fake.setText(str(truncate(Z_o.imag)))
+        self.ui.char_impedence_real.setText(str(truncate(Z_o.real)))
     
 
 

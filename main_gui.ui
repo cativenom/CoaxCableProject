@@ -257,7 +257,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="fuck_2"/>
+           <widget class="QLineEdit" name="char_impedence_real"/>
           </item>
           <item>
            <widget class="QLabel" name="label_14">
@@ -267,7 +267,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="fuck"/>
+           <widget class="QLineEdit" name="char_impedence_fake"/>
           </item>
           <item>
            <widget class="QLabel" name="label_13">
@@ -290,7 +290,7 @@
      <x>0</x>
      <y>0</y>
      <width>1096</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>
