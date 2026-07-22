@@ -31,7 +31,11 @@ MODERN_THEME = """
     QPlainTextEdit { background-color: #11111b; color: #cdd6f4; border: 1px solid #313244; padding: 8px; border-radius: 4px; }
 """
 
-units = ["nm", "mm", "cm", "m",]
+units_meter = ["nm", "mm", "cm", "m",]
+units_hz = ["Hz", "kHz", "MHz", "GHz", "THz"]
+units_ohm = ["pΩ", "nΩ","muΩ","mΩ", "Ω", "kΩ", "MΩ"]
+
+
 
 class CoaxSolver(QMainWindow):
     def __init__(self):
@@ -66,12 +70,19 @@ class CoaxSolver(QMainWindow):
             self.ui.dielectric_select.addItem(diaelectric)
 
         print("-------------- Adding Units --------------")
-        for unit in units:
+        for unit in units_meter:
             print(unit)
             self.ui.a_units.addItem(unit)
             self.ui.b_units.addItem(unit)
             self.ui.c_units.addItem(unit)
             self.ui.length_units.addItem(unit)
+        for unit in units_hz:
+            print(unit)
+            self.ui.hzUnits.addItem(unit)
+        for unit in units_ohm:
+            print(unit)
+            self.ui.ohmUnits.addItem(unit)
+            
         
 
 

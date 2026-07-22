@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1096</width>
+    <width>1232</width>
     <height>637</height>
    </rect>
   </property>
@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_13">
+   <layout class="QVBoxLayout" name="verticalLayout_3">
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
@@ -38,11 +38,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_10">
-              <property name="text">
-               <string>Hz</string>
-              </property>
-             </widget>
+             <widget class="QComboBox" name="hzUnits"/>
             </item>
            </layout>
           </item>
@@ -209,12 +205,9 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_6">
           <item>
-           <widget class="QRadioButton" name="open_shunt_btn">
+           <widget class="QRadioButton" name="N">
             <property name="text">
-             <string>Open Shunt</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
+             <string>Neither</string>
             </property>
            </widget>
           </item>
@@ -222,6 +215,23 @@
            <widget class="QRadioButton" name="shorted_shunt_btn">
             <property name="text">
              <string>Shorted Shunt</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="both_btn">
+            <property name="text">
+             <string>Both</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="open_shunt_btn">
+            <property name="text">
+             <string>Open Shunt</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -241,8 +251,8 @@
           </property>
           <property name="sizeHint" stdset="0">
            <size>
-            <width>418</width>
-            <height>20</height>
+            <width>258</width>
+            <height>22</height>
            </size>
           </property>
          </spacer>
@@ -257,7 +267,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="char_impedence_real"/>
+           <widget class="QLineEdit" name="char_impedence_real">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QLabel" name="label_14">
@@ -267,14 +281,14 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="char_impedence_fake"/>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_13">
-            <property name="text">
-             <string>Ohms</string>
+           <widget class="QLineEdit" name="char_impedence_fake">
+            <property name="readOnly">
+             <bool>true</bool>
             </property>
            </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="ohmUnits"/>
           </item>
          </layout>
         </item>
@@ -289,7 +303,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1096</width>
+     <width>1232</width>
      <height>20</height>
     </rect>
    </property>
