@@ -98,6 +98,8 @@ class CoaxSolver(QMainWindow):
             shunt = True 
         elif checked_id == 1:
             shunt = False
+        elif checked_id == 3:
+            shunt = True
         else:
             shunt = None 
 
