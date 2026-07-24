@@ -1,29 +1,31 @@
 import cmath
+from typing import Optional
+
 
 class stubSolver:
-    def __init__(self, impedance: float, beta: float, gamma: complex,
-                 lumpedZ: float, length: float, short: bool):
-        self.Z0 = impedance
+    def __init__(self, real: float, fake: float, z0real: float, z0fake: float,
+                 beta: float, gamma: complex, length: float, short: Optional[bool]):
+        
+        self.Z0 = complex(z0real, z0fake)
+        self.load = complex(real, fake)
         self.beta = beta
         self.gamma = gamma if gamma is not None else 1j * beta
-        self.lumpedZ = lumpedZ
         self.length = length
         self.short = short
 
-        def _solve_short(gamma, length, Z0):
-            return Z0 * cmath.tanh(gamma * length)
-
-        def _solve_open(gamma, length, Z0):
-            return Z0 / cmath.tanh(gamma * length)
-
-        self._solve_short = _solve_short
-        self._solve_open = _solve_open
-
     def input_impedance(self):
-        if self.short:
-            return self._solve_short(self.gamma, self.length, self.Z0)
+        tanh_gl = cmath.tanh(self.gamma * self.length)
+
+        if self.short is True:
+            # ZL = 0 special case: Zin = Z0 * tanh(gamma*l)
+            return self.Z0 * tanh_gl
+        elif self.short is False:
+            # ZL -> infinity special case: Zin = Z0 / tanh(gamma*l)
+            return self.Z0 / tanh_gl
         else:
-            return self._solve_open(self.gamma, self.length, self.Z0)
+            # General terminated line: Zin = Z0 * (ZL + Z0*tanh(gl)) / (Z0 + ZL*tanh(gl))
+            ZL = self.load
+            return self.Z0 * (ZL + self.Z0 * tanh_gl) / (self.Z0 + ZL * tanh_gl)
 
     def input_reactance(self):
         return self.input_impedance().imag
@@ -34,10 +36,13 @@ if __name__ == "__main__":
     length = 0.125
     Z0 = 50.0
 
-    short_stub = stubSolver(impedance=Z0, beta=beta, gamma=1j*beta,
-                             lumpedZ=None, length=length, short=True)
-    open_stub = stubSolver(impedance=Z0, beta=beta, gamma=1j*beta,
-                            lumpedZ=None, length=length, short=False)
+    short_stub = stubSolver(real=0, fake=0, z0real=Z0, z0fake=0,
+                             beta=beta, gamma=1j * beta, length=length, short=True)
+    open_stub = stubSolver(real=0, fake=0, z0real=Z0, z0fake=0,
+                            beta=beta, gamma=1j * beta, length=length, short=False)
+    general_stub = stubSolver(real=75, fake=-30, z0real=Z0, z0fake=0,
+                               beta=beta, gamma=1j * beta, length=length, short=None)
 
     print("Short-circuit stub Zin:", short_stub.input_impedance())
     print("Open-circuit stub Zin:", open_stub.input_impedance())
+    print("General ZL=75-30j stub Zin:", general_stub.input_impedance())

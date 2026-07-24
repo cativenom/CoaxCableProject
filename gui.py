@@ -73,39 +73,39 @@ class CoaxSolver(QMainWindow):
             self.ui.b_units.addItem(unit)
             self.ui.c_units.addItem(unit)
             self.ui.length_units.addItem(unit)
-        
-
-
-            
-             
-
 
 
 
     def solve(self):
-        conductor=self.ui.conductor_select.currentText()
-        diaelectric=self.ui.dielectric_select.currentText()
-        solve_type=self.buttton_group.checkedButton().text()
-        a=self.ui.a_lineedit.text()
-        b=self.ui.b_lineedit.text()
-        c=self.ui.c_lineedit.text()
-        length=self.ui.l_lineedit.text()
-        ReZl=self.ui.real_impedence.text()
-        ImZl=self.ui.fake_impedence.text()
-        freq=self.ui.freqlineEdit.text()
-        beta = (2*math.pi)/float(length)
-        
-        stub = stubSolver(impedance=float(ReZl), beta=beta, gamma=0,lumpedZ=None, length=float(length), short=True);
+        conductor = self.ui.conductor_select.currentText()
+        diaelectric = self.ui.dielectric_select.currentText()
+        solve_type = self.buttton_group.checkedButton().text()
+        a = self.ui.a_lineedit.text()
+        b = self.ui.b_lineedit.text()
+        c = self.ui.c_lineedit.text()
+        length = self.ui.l_lineedit.text()
+        ReZl = self.ui.real_impedence.text()
+        ImZl = self.ui.fake_impedence.text()
+        freq = self.ui.freqlineEdit.text()
+        beta = (2 * math.pi) / float(length)
 
+        checked_id = self.buttton_group.checkedId()
+        if checked_id == 2:
+            shunt = True 
+        elif checked_id == 1:
+            shunt = False
+        else:
+            shunt = None 
 
         print("-------------- Solving --------------")
         print(f"{conductor} \n {diaelectric} \n {solve_type} \n {a} \n {b} \n {c} \n {length} \n {ReZl} \n {ImZl} \n {freq}")
-        solver = Solver(str(conductor), str(diaelectric), str(solve_type), float(a), float(b), float(b), float(length), float(ReZl), float(ImZl), float(freq))
+        solver = Solver(str(conductor), str(diaelectric), str(solve_type), float(a), float(b), float(c), float(length), float(ReZl), float(ImZl), float(freq))
         Z_o = solver._char_impedance()
         self.ui.char_impedence_fake.setText(str(truncate(Z_o.imag)))
         self.ui.char_impedence_real.setText(str(truncate(Z_o.real)))
+        stub = stubSolver(real=float(ReZl), fake=float(ImZl), z0real=Z_o.real, z0fake=Z_o.imag, beta=beta, gamma=1j * beta, length=float(length), short=shunt)
+
         print(stub.input_impedance())
-    
 
 
 
