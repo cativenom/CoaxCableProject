@@ -33,6 +33,9 @@ class Solver:
         # Not Provided Stuff
         self.eps_0 = 0.000000000007754
         self.mu_0 = 4*cmath.pi*(10**-7)
+        self.ref = complex
+        self.vswr = complex   
+        self.G = float 
         
     def _dist_params(self):
         c = 2 * cmath.pi * self.epd
@@ -66,9 +69,37 @@ class Solver:
         z0 = cmath.sqrt(self.rl / self.gc)
         return z0
     
+    def _ref_coeff(self): 
+        if self.solve_type == "Short": 
+          ref = -1
+        elif self.solve_type == "Open":
+          ref = 1
+        else:
+          ref = (self.zl-self.z0)/(self.zl+self.z0)
+        return ref
+
+    def _VSWR(self):
+        if self.solve_type == "Short" or self.solve_type == "Open":
+          vswr = cmath.inf
+        else:
+          vswr = (1+abs(self.ref))/(1-abs(self.ref))
+        return vswr
+    
+    def _gain(self):
+        G = 10 * cmath.log10(cmath.exp(-2*self.gamma.real*self.l))
+        return G
+
+    
     def solve(self):
         self.z0 = self._char_impedance()
+        self.ref = self._ref_coeff()
+        self.vswr = self._VSWR()
+        self.G = self._gain()
         print(self.z0)
+        print(self.ref)
+        print(self.vswr)
+        print(self.G)
+        
         
 solv = Solver("Copper", "Air", "Shorted", 2, 4, 6, 1, 1, 1, 1*10**9)
 solv.solve()
