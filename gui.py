@@ -118,7 +118,6 @@ class CoaxSolver(QMainWindow):
         self.ui.char_impedence_real.setText(str(truncate(Z_o.real)))
 
         if both and not shunt:
-            # "neither" selected — no stub, skip calculation
             print("No stub selected — skipping stub impedance calculation.")
             return
 

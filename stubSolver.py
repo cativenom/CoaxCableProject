@@ -16,13 +16,10 @@ class stubSolver:
         tanh_gl = cmath.tanh(self.gamma * self.length)
 
         if self.short is True:
-            # ZL = 0 special case: Zin = Z0 * tanh(gamma*l)
             return self.Z0 * tanh_gl
         elif self.short is False:
-            # ZL -> infinity special case: Zin = Z0 / tanh(gamma*l)
             return self.Z0 / tanh_gl
         else:
-            # General terminated line: Zin = Z0 * (ZL + Z0*tanh(gl)) / (Z0 + ZL*tanh(gl))
             ZL = self.load
             return self.Z0 * (ZL + self.Z0 * tanh_gl) / (self.Z0 + ZL * tanh_gl)
 
