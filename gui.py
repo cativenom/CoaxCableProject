@@ -96,12 +96,19 @@ class CoaxSolver(QMainWindow):
         checked_id = self.buttton_group.checkedId()
         if checked_id == 2:
             shunt = True 
+            both = False
         elif checked_id == 1:
             shunt = False
+            both = False
         elif checked_id == 3:
             shunt = True
+            both = True
+        elif checked_id == 4:
+            shunt = False
+            both = False
         else:
-            shunt = None 
+            shunt = None
+            both = None 
 
         print("-------------- Solving --------------")
         print(f"{conductor} \n {diaelectric} \n {solve_type} \n {a} \n {b} \n {c} \n {length} \n {ReZl} \n {ImZl} \n {freq}")
@@ -109,9 +116,25 @@ class CoaxSolver(QMainWindow):
         Z_o = solver._char_impedance()
         self.ui.char_impedence_fake.setText(str(truncate(Z_o.imag)))
         self.ui.char_impedence_real.setText(str(truncate(Z_o.real)))
-        stub = stubSolver(real=float(ReZl), fake=float(ImZl), z0real=Z_o.real, z0fake=Z_o.imag, beta=beta, gamma=1j * beta, length=float(length), short=shunt)
 
-        print(stub.input_impedance())
+        if both and not shunt:
+            # "neither" selected — no stub, skip calculation
+            print("No stub selected — skipping stub impedance calculation.")
+            return
+
+        if both and shunt:
+            stub_open = stubSolver(real=float(ReZl), fake=float(ImZl), z0real=Z_o.real, z0fake=Z_o.imag,
+                                    beta=beta, gamma=1j * beta, length=float(length), short=False)
+            stub_short = stubSolver(real=float(ReZl), fake=float(ImZl), z0real=Z_o.real, z0fake=Z_o.imag,
+                                     beta=beta, gamma=1j * beta, length=float(length), short=True)
+            z_open = stub_open.input_impedance()
+            z_short = stub_short.input_impedance()
+            z_parallel = (z_open * z_short) / (z_open + z_short)
+            print(z_parallel)
+        else:
+            stub = stubSolver(real=float(ReZl), fake=float(ImZl), z0real=Z_o.real, z0fake=Z_o.imag,
+                               beta=beta, gamma=1j * beta, length=float(length), short=shunt)
+            print(stub.input_impedance())
 
 
 

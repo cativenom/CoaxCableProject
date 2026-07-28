@@ -3,8 +3,7 @@ from typing import Optional
 
 
 class stubSolver:
-    def __init__(self, real: float, fake: float, z0real: float, z0fake: float,
-                 beta: float, gamma: complex, length: float, short: Optional[bool]):
+    def __init__(self, real: float, fake: float, z0real: float, z0fake: float, beta: float, gamma: complex, length: float, short: Optional[bool]):
         
         self.Z0 = complex(z0real, z0fake)
         self.load = complex(real, fake)
