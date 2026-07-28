@@ -36,6 +36,9 @@ units_meter = ["nm", "mm", "cm", "m",]
 units_hz = ["Hz", "kHz", "MHz", "GHz", "THz"]
 units_ohm = ["pΩ", "nΩ","muΩ","mΩ", "Ω", "kΩ", "MΩ"]
 
+CONVERT = {"nm" : 1e-9, "mm" : 1e-3, "cm" : 1e-2, "m": 1e1,
+           "Hz" : 1e1, "kHz" : 1e3, "MHz" : 1e6, "GHz" : 1e9, "THz" : 1e12, 
+           "pΩ" : 1e-12, "nΩ" : 1e-9, "muΩ": 1e-6, "mΩ" : 1e-3, "Ω": 1e1, "kΩ" : 1e3, "MΩ" : 1e6,}
 
 
 class CoaxSolver(QMainWindow):
@@ -84,13 +87,13 @@ class CoaxSolver(QMainWindow):
         conductor = self.ui.conductor_select.currentText()
         diaelectric = self.ui.dielectric_select.currentText()
         solve_type = self.buttton_group.checkedButton().text()
-        a = self.ui.a_lineedit.text()
-        b = self.ui.b_lineedit.text()
-        c = self.ui.c_lineedit.text()
-        length = self.ui.l_lineedit.text()
-        ReZl = self.ui.real_impedence.text()
-        ImZl = self.ui.fake_impedence.text()
-        freq = self.ui.freqlineEdit.text()
+        a=float(self.ui.a_lineedit.text()) * CONVERT[self.ui.a_units.currentText()]
+        b=float(self.ui.b_lineedit.text()) * CONVERT[self.ui.b_units.currentText()]
+        c=float(self.ui.c_lineedit.text()) * CONVERT[self.ui.c_units.currentText()]
+        length=float(self.ui.l_lineedit.text()) * CONVERT[self.ui.length_units.currentText()]
+        ReZl=float(self.ui.real_impedence.text()) * CONVERT[self.ui.ohmUnits.currentText()]
+        ImZl=float(self.ui.fake_impedence.text()) * CONVERT[self.ui.ohmUnits.currentText()]
+        freq=float(self.ui.freqlineEdit.text()) * CONVERT[self.ui.hzUnits.currentText()]
         beta = (2 * math.pi) / float(length)
 
         checked_id = self.buttton_group.checkedId()
