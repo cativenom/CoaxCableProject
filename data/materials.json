@@ -41,6 +41,9 @@
         },
         "Tungsten": {
             "sigc": 18000000
+        },
+        "Other": {
+            "sigc": "None"
         }
     },
     "dielectric": {
@@ -127,6 +130,12 @@
             "Ebr": "None",
             "sigd": 5,
             "mur": 1
+        },
+         "Other": {
+            "epd": "None",
+            "Ebr": "None",
+            "sigd": "None",
+            "mur": "None"
         }
     }
 }
