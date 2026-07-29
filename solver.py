@@ -16,6 +16,8 @@ class Solver:
             self.sigd = data["dielectric"][dielectric]["sigd"]
             self.epd = data["dielectric"][dielectric]["epd"]
             self.mur = data["dielectric"][dielectric]["mur"]
+            if self.sigd == "None":
+                self.sigd = 0
         else:
             self.sigd = sigd
             self.epd = epd
@@ -98,9 +100,9 @@ class Solver:
         self.vswr = self._VSWR()
         self.G = self._gain()
         print(self.z0)
-        print(self.ref)
-        print(self.vswr)
-        print(self.G)
+        # print(self.ref)
+        # print(self.vswr)
+        # print(self.G)
         
     def react_to_comp(self, X):
         if X > 0:
@@ -122,14 +124,14 @@ class Solver:
     #     w = 2 * cmath.pi * self.f
 
 if __name__ == "__main__":
-    solv = Solver("Copper", "Air", "Shorted", 2, 4, 6, 1, 1, 1, 1*10**9)
-    solv.solve()
+    # solv = Solver("Copper", "Air", "Shorted", 2, 4, 6, 1, 1, 1, 1*10**9)
+    # solv.solve()
 
     # solv = Solver("Copper", "Air", "Shorted", 2, 4, 6, 1, 1, 1, 1*10**9)
     # solv.solve()
 
-    # rg58 = Solver("Copper", "Polyethylene", "Dunno", 0.000405, 0.001475, 1, 1, 1, 1, 1000000000)
-    # rg58.solve()
+    rg58 = Solver("Copper", "Polyethylene", "Dunno", 0.000405, 0.001475, 1, 1, 1, 1, 1000000000)
+    rg58.solve()
 
     # rg59 = Solver("Copper", "Polyethylene", "Dunno", 0.00029, 0.00185, 1, 1, 1, 1, 1000000000)
     # rg59.solve()
