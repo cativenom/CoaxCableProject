@@ -1,11 +1,15 @@
 import math
 
-from PySide6.QtWidgets import QApplication, QBoxLayout, QButtonGroup, QFileDialog, QMainWindow, QTableWidgetItem, QHeaderView, QMessageBox, QAbstractItemView, QLabel, QVBoxLayout, QWidget, QSizePolicy
+from PySide6.QtWidgets import QApplication, QMainWindow, QGraphicsScene, QGraphicsView, QGraphicsItem, QWidget
+from PySide6.QtCore import Qt, QRectF
+from PySide6.QtGui import QBrush, QPen, QColor
+
 import sys
 import json
 from ui_main import Ui_MainWindow
 from solver import Solver
 from stubSolver import stubSolver
+
 
 MODERN_THEME = """
     QMainWindow { background-color: #1e1e2e; }
@@ -47,8 +51,12 @@ class CoaxSolver(QMainWindow):
 
         self.ui.solve_btn.clicked.connect(self.solve)
 
+        self.scene = QGraphicsScene(self)
+        self.ui.graphicsView.setScene(self.scene)
 
-
+        for edit in (self.ui.a_lineedit, self.ui.b_lineedit, self.ui.c_lineedit):
+            edit.textChanged.connect(self.update_diagram)
+        
 
         with open("data/materials.json", "r") as file:
                 data = json.load(file)
@@ -85,14 +93,54 @@ class CoaxSolver(QMainWindow):
         self.ui.termination_box.addItem("Open")
         self.ui.termination_box.addItem("Shorted")
 
-        
         self.ui.connection_box.addItem("Series")
         self.ui.connection_box.addItem("Shunt")
 
 
-        
+    def update_diagram(self):
+        try:
+            a = float(self.ui.a_lineedit.text()) * CONVERT[self.ui.a_units.currentText()]
+            b = float(self.ui.b_lineedit.text()) * CONVERT[self.ui.b_units.currentText()]
+            c = float(self.ui.c_lineedit.text()) * CONVERT[self.ui.c_units.currentText()]      
+        except (ValueError, KeyError):
+            return 
+        self.draw_scene(a, b, c)
 
+    def draw_scene(self, a, b, c):
+        self.scene.clear()
+        if a <= 0 or b <= 0 or c <= 0:
+            return
+
+       
+        scale = 200/c #scales to c
+
+
+        for radius, fill, edge in ((c, "#B5D4F4", "#185FA5"),(b, "#9FE1CB", "#0F6E56"),(a, "#F5C4B3", "#993C1D")):
+            radius_scaled = radius * scale
+            self.scene.addEllipse(-radius_scaled, -radius_scaled, 2*radius_scaled, 2* radius_scaled, QPen(QColor(edge), 1), QBrush(QColor(fill)))
+        self.ui.graphicsView.fitInView(self.scene.itemsBoundingRect(), Qt.KeepAspectRatio)
         
+        # green_brush = QBrush(QColor("lightCyan"))
+        # black_pen = QPen(Qt.cyan)
+        # black_pen.setWidth(.1)
+        
+        # self.scene.setBackgroundBrush(QColor("#1e1e2e"))
+
+        # outer_conductor = self.scene.addEllipse(250, 250, 300, 300, black_pen, green_brush)
+        # dielectric_circle = self.scene.addEllipse(275, 275, 100, 100, black_pen, QBrush(QColor("lightGreen")))
+        # inner_conductor = self.scene.addEllipse(300, 300, 50, 50, black_pen, QBrush(QColor("#1e1e2e")))
+        
+    #Events fire after an action has occured for example show is when the window becomes visible and resize is when the user resizes the window
+
+    def showEvent(self, event):
+        super().showEvent(event)
+        self.update_diagram()
+    
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        rect = self.scene.itemsBoundingRect()
+        if not rect.isNull():
+            self.ui.graphicsView.fitInView(rect, Qt.KeepAspectRatio)
 
 
     def solve(self):
