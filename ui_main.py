@@ -215,15 +215,15 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_6.addWidget(self.label_13)
 
-        self.open_shunt_box = QComboBox(self.centralwidget)
-        self.open_shunt_box.setObjectName(u"open_shunt_box")
+        self.termination_box = QComboBox(self.centralwidget)
+        self.termination_box.setObjectName(u"termination_box")
 
-        self.horizontalLayout_6.addWidget(self.open_shunt_box)
+        self.horizontalLayout_6.addWidget(self.termination_box)
 
-        self.stub_shunt_box = QComboBox(self.centralwidget)
-        self.stub_shunt_box.setObjectName(u"stub_shunt_box")
+        self.connection_box = QComboBox(self.centralwidget)
+        self.connection_box.setObjectName(u"connection_box")
 
-        self.horizontalLayout_6.addWidget(self.stub_shunt_box)
+        self.horizontalLayout_6.addWidget(self.connection_box)
 
         self.solve_btn = QPushButton(self.centralwidget)
         self.solve_btn.setObjectName(u"solve_btn")
@@ -278,22 +278,22 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_14.addWidget(self.label_16)
 
-        self.char_impedence_real_3 = QLineEdit(self.centralwidget)
-        self.char_impedence_real_3.setObjectName(u"char_impedence_real_3")
-        self.char_impedence_real_3.setReadOnly(True)
+        self.input_impedence_real = QLineEdit(self.centralwidget)
+        self.input_impedence_real.setObjectName(u"input_impedence_real")
+        self.input_impedence_real.setReadOnly(True)
 
-        self.horizontalLayout_14.addWidget(self.char_impedence_real_3)
+        self.horizontalLayout_14.addWidget(self.input_impedence_real)
 
         self.label_17 = QLabel(self.centralwidget)
         self.label_17.setObjectName(u"label_17")
 
         self.horizontalLayout_14.addWidget(self.label_17)
 
-        self.char_impedence_fake_3 = QLineEdit(self.centralwidget)
-        self.char_impedence_fake_3.setObjectName(u"char_impedence_fake_3")
-        self.char_impedence_fake_3.setReadOnly(True)
+        self.input_impedence_fake = QLineEdit(self.centralwidget)
+        self.input_impedence_fake.setObjectName(u"input_impedence_fake")
+        self.input_impedence_fake.setReadOnly(True)
 
-        self.horizontalLayout_14.addWidget(self.char_impedence_fake_3)
+        self.horizontalLayout_14.addWidget(self.input_impedence_fake)
 
         self.ohmUnits_3 = QComboBox(self.centralwidget)
         self.ohmUnits_3.setObjectName(u"ohmUnits_3")
@@ -315,7 +315,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1003, 20))
+        self.menubar.setGeometry(QRect(0, 0, 1003, 22))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")

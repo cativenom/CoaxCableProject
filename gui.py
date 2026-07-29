@@ -19,9 +19,6 @@ MODERN_THEME = """
     QHeaderView::section:first { border-top-left-radius: 8px; }
     QHeaderView::section:last { border-top-right-radius: 8px; border-right: none; }
 
-
-    QPushButton#btn_close_sidebar:hover { background-color: #eba0b3; }
-
     QLabel { color: #cdd6f4; }
     QLineEdit { background-color: #181825; color: #cdd6f4; border: 1px solid #313244; padding: 8px; border-radius: 4px; }
     QLineEdit:focus { border: 1px solid #89b4fa; }
@@ -32,13 +29,13 @@ MODERN_THEME = """
     QPlainTextEdit { background-color: #11111b; color: #cdd6f4; border: 1px solid #313244; padding: 8px; border-radius: 4px; }
 """
 
-units_meter = ["nm", "mm", "cm", "m",]
+units_meter = ["nm", "µm", "mm", "cm", "m",]
 units_hz = ["Hz", "kHz", "MHz", "GHz", "THz"]
-units_ohm = ["pΩ", "nΩ","muΩ","mΩ", "Ω", "kΩ", "MΩ"]
+units_ohm = ["pΩ", "nΩ","µΩ","mΩ", "Ω", "kΩ", "MΩ"]
 
-CONVERT = {"nm" : 1e-9, "mm" : 1e-3, "cm" : 1e-2, "m": 1e1,
-           "Hz" : 1e1, "kHz" : 1e3, "MHz" : 1e6, "GHz" : 1e9, "THz" : 1e12, 
-           "pΩ" : 1e-12, "nΩ" : 1e-9, "muΩ": 1e-6, "mΩ" : 1e-3, "Ω": 1e1, "kΩ" : 1e3, "MΩ" : 1e6,}
+CONVERT = {"nm" : 1e-9, "mm" : 1e-3, "cm" : 1e-2, "m": 1, "µm": 1e-6,
+           "Hz" : 1, "kHz" : 1e3, "MHz" : 1e6, "GHz" : 1e9, "THz" : 1e12, 
+           "pΩ" : 1e-12, "nΩ" : 1e-9, "µΩ": 1e-6, "mΩ" : 1e-3, "Ω": 1, "kΩ" : 1e3, "MΩ" : 1e6,}
 
 
 class CoaxSolver(QMainWindow):
@@ -51,8 +48,6 @@ class CoaxSolver(QMainWindow):
         self.ui.solve_btn.clicked.connect(self.solve)
 
 
-        layout = QVBoxLayout()
-        self.setLayout(layout)
 
 
         with open("data/materials.json", "r") as file:
@@ -86,10 +81,16 @@ class CoaxSolver(QMainWindow):
         
         
 
-        self.ui.open_shunt_box.addItem("Open")
-        self.ui.open_shunt_box.addItem("Shunt")
-        self.ui.stub_shunt_box.addItem("Stub")
-        self.ui.stub_shunt_box.addItem("Shunt")
+      
+        self.ui.termination_box.addItem("Open")
+        self.ui.termination_box.addItem("Shorted")
+
+        
+        self.ui.connection_box.addItem("Series")
+        self.ui.connection_box.addItem("Shunt")
+
+
+        
 
         
 
@@ -97,7 +98,8 @@ class CoaxSolver(QMainWindow):
     def solve(self):
         conductor = self.ui.conductor_select.currentText()
         diaelectric = self.ui.dielectric_select.currentText()
-        solve_type = self.buttton_group.checkedButton().text()
+        termination_type = self.ui.termination_box.currentText()
+        connection_type = self.ui.connection_box.currentText()
         a=float(self.ui.a_lineedit.text()) * CONVERT[self.ui.a_units.currentText()]
         b=float(self.ui.b_lineedit.text()) * CONVERT[self.ui.b_units.currentText()]
         c=float(self.ui.c_lineedit.text()) * CONVERT[self.ui.c_units.currentText()]
@@ -107,53 +109,103 @@ class CoaxSolver(QMainWindow):
         freq=float(self.ui.freqlineEdit.text()) * CONVERT[self.ui.hzUnits.currentText()]
         beta = (2 * math.pi) / float(length)
 
-        checked_id = self.buttton_group.checkedId()
-        if checked_id == 2:
-            shunt = True 
-            both = False
-        elif checked_id == 1:
-            shunt = False
-            both = False
-        elif checked_id == 3:
-            shunt = True
-            both = True
-        elif checked_id == 4:
-            shunt = False
-            both = False
-        else:
-            shunt = None
-            both = None 
-
+        # checked_id = self.buttton_group.checkedId()
+        # if checked_id == 2:
+        #     shunt = True 
+        #     both = False
+        # elif checked_id == 1:
+        #     shunt = False
+        #     both = False
+        # elif checked_id == 3:
+        #     shunt = True
+        #     both = True
+        # elif checked_id == 4:
+        #     shunt = False
+        #     both = False
+        # else:
+        #     shunt = None
+        #     both = None 
+        
         print("-------------- Solving --------------")
-        print(f"{conductor} \n {diaelectric} \n {solve_type} \n {a} \n {b} \n {c} \n {length} \n {ReZl} \n {ImZl} \n {freq}")
-        solver = Solver(str(conductor), str(diaelectric), str(solve_type), float(a), float(b), float(c), float(length), float(ReZl), float(ImZl), float(freq))
+        print(f"{conductor} \n {diaelectric} \n {termination_type} \n {a} \n {b} \n {c} \n {length} \n {ReZl} \n {ImZl} \n {freq}")
+        solver = Solver(str(conductor), str(diaelectric), str(termination_type), float(a), float(b), float(c), float(length), float(ReZl), float(ImZl), float(freq))
         Z_o = solver._char_impedance()
         self.ui.char_impedence_fake.setText(str(truncate(Z_o.imag)))
         self.ui.char_impedence_real.setText(str(truncate(Z_o.real)))
 
-        if both and not shunt:
-            print("No stub selected — skipping stub impedance calculation.")
-            return
+    
+        match termination_type:
+            case "Open":
+                short = False
+            
+            case "Shorted":   
+                short = True
+                
 
-        if both and shunt:
-            stub_open = stubSolver(real=float(ReZl), fake=float(ImZl), z0real=Z_o.real, z0fake=Z_o.imag,
-                                    beta=beta, gamma=1j * beta, length=float(length), short=False)
-            stub_short = stubSolver(real=float(ReZl), fake=float(ImZl), z0real=Z_o.real, z0fake=Z_o.imag,
-                                     beta=beta, gamma=1j * beta, length=float(length), short=True)
-            z_open = stub_open.input_impedance()
-            z_short = stub_short.input_impedance()
-            z_parallel = (z_open * z_short) / (z_open + z_short)
-            print(z_parallel)
-        else:
-            stub = stubSolver(real=float(ReZl), fake=float(ImZl), z0real=Z_o.real, z0fake=Z_o.imag,
-                               beta=beta, gamma=1j * beta, length=float(length), short=shunt)
-            print(stub.input_impedance())
+            # case "Parellel":
+            #     stub_open = stubSolver(real=float(ReZl), fake=float(ImZl), z0real=Z_o.real, z0fake=Z_o.imag,
+            #                                         beta=beta, gamma=1j * beta, length=float(length), short=False)
+                
+            #     z_open = stub_open.input_impedance()
+
+            #     stub_short = stubSolver(real=float(ReZl), fake=float(ImZl), z0real=Z_o.real, z0fake=Z_o.imag,
+            #                                         beta=beta, gamma=1j * beta, length=float(length), short=True)
+                
+            #     z_short = stub_short.input_impedance()
+            #     z_parallel = (z_open * z_short) / (z_open + z_short)
+        
+            #     self.ui.input_impedence_real.setText(str(truncate(z_parallel.real)))
+            #     self.ui.input_impedence_fake.setText(str(truncate(z_parallel.imag)))
+            # case "Series": 
+                
+            case _:
+                print("No connection type selected")
+                # ADD ALERT BOX              
+
+        stub = stubSolver(real=float(ReZl), fake=float(ImZl), z0real=Z_o.real, z0fake=Z_o.imag,
+                            beta=beta, gamma=1j * beta, length=float(length), short=short)
+        z_stub = stub.input_impedance()
+        z_l = float(ReZl) + float(ImZl)
+        if connection_type == "Series":
+            z_input = z_l + z_stub
+            self.ui.input_impedence_real.setText(str(truncate(z_input.real))) #truncate doesn't work?S
+            self.ui.input_impedence_fake.setText(str(truncate(z_input.imag)))
+        elif connection_type == "Shunt":
+            y_total = (1/z_l) + (1/z_stub)
+            z_input = 1/y_total
+            self.ui.input_impedence_real.setText(str(truncate(z_input.real)))
+            self.ui.input_impedence_fake.setText(str(truncate(z_input.imag)))
+        #elif connection_type == "Parallel"
+            
+        
+
+        
+
+        # if both and not shunt:
+        #     print("No stub selected — skipping stub impedance calculation.")
+        #     return
+
+        # if both and shunt:
+        #     stub_open = stubSolver(real=float(ReZl), fake=float(ImZl), z0real=Z_o.real, z0fake=Z_o.imag,
+        #                             beta=beta, gamma=1j * beta, length=float(length), short=False)
+        #     stub_short = stubSolver(real=float(ReZl), fake=float(ImZl), z0real=Z_o.real, z0fake=Z_o.imag,
+        #                              beta=beta, gamma=1j * beta, length=float(length), short=True)
+        #     z_open = stub_open.input_impedance()
+        #     z_short = stub_short.input_impedance()
+        #     z_parallel = (z_open * z_short) / (z_open + z_short)
+        #     print(z_parallel)
+        # else:
+        #     stub = stubSolver(real=float(ReZl), fake=float(ImZl), z0real=Z_o.real, z0fake=Z_o.imag,
+        #                        beta=beta, gamma=1j * beta, length=float(length), short=shunt)
+        #     print(stub.input_impedance())
 
 
 
 
 
 def truncate(num):
+    if num == 0:
+        return num
     sig_figs = 4
     exponent = math.floor(math.log10(abs(num)))
     places = sig_figs - 1 - exponent

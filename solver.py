@@ -100,6 +100,6 @@ class Solver:
         print(self.vswr)
         print(self.G)
         
-        
-solv = Solver("Copper", "Air", "Shorted", 2, 4, 6, 1, 1, 1, 1*10**9)
-solv.solve()
+if __name__ == "__main__":
+    solv = Solver("Copper", "Air", "Shorted", 2, 4, 6, 1, 1, 1, 1*10**9)
+    solv.solve()
