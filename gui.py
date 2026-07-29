@@ -33,13 +33,14 @@ MODERN_THEME = """
     QPlainTextEdit { background-color: #11111b; color: #cdd6f4; border: 1px solid #313244; padding: 8px; border-radius: 4px; }
 """
 
-units_meter = ["nm", "µm", "mm", "cm", "m",]
+units_meter = ["m", "cm", "mm", "µm", "nm"]
 units_hz = ["Hz", "kHz", "MHz", "GHz", "THz"]
-units_ohm = ["pΩ", "nΩ","µΩ","mΩ", "Ω", "kΩ", "MΩ"]
+units_ohm = ["Ω", "pΩ", "nΩ","µΩ","mΩ", "kΩ", "MΩ"]
 
-CONVERT = {"nm" : 1e-9, "mm" : 1e-3, "cm" : 1e-2, "m": 1, "µm": 1e-6,
+CONVERT = {"m": 1, "cm" : 1e-2, "mm" : 1e-3, "µm": 1e-6, "nm" : 1e-9,
            "Hz" : 1, "kHz" : 1e3, "MHz" : 1e6, "GHz" : 1e9, "THz" : 1e12, 
-           "pΩ" : 1e-12, "nΩ" : 1e-9, "µΩ": 1e-6, "mΩ" : 1e-3, "Ω": 1, "kΩ" : 1e3, "MΩ" : 1e6,}
+           "Ω": 1, "pΩ" : 1e-12, "nΩ" : 1e-9, "µΩ": 1e-6, "mΩ" : 1e-3, "kΩ" : 1e3, "MΩ" : 1e6,}
+
 
 
 class CoaxSolver(QMainWindow):
