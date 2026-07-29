@@ -6,17 +6,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1232</width>
-    <height>637</height>
+    <width>1003</width>
+    <height>635</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout_3">
+   <layout class="QVBoxLayout" name="verticalLayout_4">
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
+     <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
@@ -71,7 +71,7 @@
             <item>
              <widget class="QLabel" name="label_5">
               <property name="text">
-               <string>Z_L = </string>
+               <string>Z&lt;sub&gt;L = </string>
               </property>
              </widget>
             </item>
@@ -99,7 +99,7 @@
             <item>
              <widget class="QLabel" name="label_7">
               <property name="text">
-               <string>Ohms</string>
+               <string>Ω</string>
               </property>
              </widget>
             </item>
@@ -201,39 +201,21 @@
        <widget class="QGraphicsView" name="graphicsView"/>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_12">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_6">
           <item>
-           <widget class="QRadioButton" name="N">
+           <widget class="QLabel" name="label_13">
             <property name="text">
-             <string>Neither</string>
+             <string>Solve for</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="shorted_shunt_btn">
-            <property name="text">
-             <string>Shorted Shunt</string>
-            </property>
-           </widget>
+           <widget class="QComboBox" name="open_shunt_box"/>
           </item>
           <item>
-           <widget class="QRadioButton" name="both_btn">
-            <property name="text">
-             <string>Both</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="open_shunt_btn">
-            <property name="text">
-             <string>Open Shunt</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
+           <widget class="QComboBox" name="stub_shunt_box"/>
           </item>
           <item>
            <widget class="QPushButton" name="solve_btn">
@@ -242,53 +224,92 @@
             </property>
            </widget>
           </item>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>468</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
          </layout>
         </item>
         <item>
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Orientation::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>258</width>
-            <height>22</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <layout class="QHBoxLayout" name="horizontalLayout_12">
           <item>
-           <widget class="QLabel" name="label_12">
-            <property name="text">
-             <string>Z_o = </string>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <item>
+             <widget class="QLabel" name="label_12">
+              <property name="text">
+               <string>Z&lt;sub&gt;o = </string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="char_impedence_real">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_14">
+              <property name="text">
+               <string>+ j</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="char_impedence_fake">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="ohmUnits"/>
+            </item>
+           </layout>
           </item>
           <item>
-           <widget class="QLineEdit" name="char_impedence_real">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_14">
-            <property name="text">
-             <string>+ j</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="char_impedence_fake">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="ohmUnits"/>
+           <layout class="QHBoxLayout" name="horizontalLayout_14">
+            <item>
+             <widget class="QLabel" name="label_16">
+              <property name="text">
+               <string>Z&lt;sub&gt;in = </string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="char_impedence_real_3">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_17">
+              <property name="text">
+               <string>+ j</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="char_impedence_fake_3">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="ohmUnits_3"/>
+            </item>
+           </layout>
           </item>
          </layout>
         </item>
@@ -303,7 +324,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1232</width>
+     <width>1003</width>
      <height>20</height>
     </rect>
    </property>

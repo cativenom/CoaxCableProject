@@ -35,6 +35,24 @@ MODERN_THEME = """
 units_meter = ["nm", "mm", "cm", "m",]
 units_hz = ["Hz", "kHz", "MHz", "GHz", "THz"]
 units_ohm = ["pΩ", "nΩ","muΩ","mΩ", "Ω", "kΩ", "MΩ"]
+CONVERT = {
+    "nm" : 1e-9, 
+    "mm" : 1e-3,
+    "cm" : 1e-2,
+    "m": 1e1, 
+    "Hz" : 1e1,
+    "kHz" : 1e3,
+    "MHz" : 1e6,
+    "GHz" : 1e9,
+    "THz" : 1e12, 
+    "pΩ" : 1e-12,
+    "nΩ" : 1e-9,
+    "muΩ": 1e-6,
+    "mΩ" : 1e-3,
+    "Ω": 1e1,
+    "kΩ" : 1e3,
+    "MΩ" : 1e6,
+}
 
 
 
@@ -51,10 +69,6 @@ class CoaxSolver(QMainWindow):
         layout = QVBoxLayout()
         self.setLayout(layout)
 
-        self.buttton_group = QButtonGroup(self)
-        self.buttton_group.setExclusive(True)
-        self.buttton_group.addButton(self.ui.open_shunt_btn, id=1)
-        self.buttton_group.addButton(self.ui.shorted_shunt_btn, id=2)
 
         with open("data/materials.json", "r") as file:
                 data = json.load(file)
@@ -77,20 +91,36 @@ class CoaxSolver(QMainWindow):
             self.ui.b_units.addItem(unit)
             self.ui.c_units.addItem(unit)
             self.ui.length_units.addItem(unit)
+        for unit in units_hz:
+            print(unit)
+            self.ui.hzUnits.addItem(unit)
+        for unit in units_ohm:
+            print(unit)
+            self.ui.ohmUnits_3.addItem(unit)
+            self.ui.ohmUnits.addItem(unit)
+        
+        
+
+        self.ui.open_shunt_box.addItem("Open")
+        self.ui.open_shunt_box.addItem("Shunt")
+        self.ui.stub_shunt_box.addItem("Stub")
+        self.ui.stub_shunt_box.addItem("Shunt")
+
         
 
 
     def solve(self):
         conductor = self.ui.conductor_select.currentText()
         diaelectric = self.ui.dielectric_select.currentText()
-        solve_type = self.buttton_group.checkedButton().text()
-        a = self.ui.a_lineedit.text()
-        b = self.ui.b_lineedit.text()
-        c = self.ui.c_lineedit.text()
-        length = self.ui.l_lineedit.text()
-        ReZl = self.ui.real_impedence.text()
-        ImZl = self.ui.fake_impedence.text()
-        freq = self.ui.freqlineEdit.text()
+        solve_type = self.ui.open_shunt_box.currentText
+        connection_type = self.ui.stub_shunt_box.currentText
+        a=self.ui.a_lineedit.text() * CONVERT[self.ui.a_units.text()]
+        b=self.ui.b_lineedit.text() * CONVERT[self.ui.b_units.text()]
+        c=self.ui.c_lineedit.text() * CONVERT[self.ui.c_units.text()]
+        length=self.ui.l_lineedit.text() * CONVERT[self.ui.length_units.text()]
+        ReZl=self.ui.real_impedence.text() * CONVERT[self.ui.ohmUnits.text()]
+        ImZl=self.ui.fake_impedence.text() * CONVERT[self.ui.ohmUnits.text()]
+        freq=self.ui.freqlineEdit.text() * CONVERT[self.ui.hzUnits]
         beta = (2 * math.pi) / float(length)
 
         checked_id = self.buttton_group.checkedId()
