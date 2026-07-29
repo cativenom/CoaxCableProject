@@ -31,24 +31,27 @@ class Solver:
         self.f = freq
         
         # Not Provided Stuff
-        self.eps_0 = 0.000000000007754
+        self.eps_0 = 8.85419e-12
         self.mu_0 = 4*cmath.pi*(10**-7)
         self.ref = complex
         self.vswr = complex   
         self.G = float 
         
+        self.ep = self.eps_0 * self.epd
+        self.mu = self.mur * self.mu_0
+        
     def _dist_params(self):
-        c = 2 * cmath.pi * self.epd
+        c = 2 * cmath.pi * self.ep
         c = c / cmath.log(self.b / self.a)
         
         g = self.sigd * c
-        g = g / self.epd
+        g = g / self.ep
         
-        l = self.mur * self.mu_0 * cmath.log(self.b / self.a)
+        l = self.mu * cmath.log(self.b / self.a)
         l_den = 2 * cmath.pi
         l = l / l_den
         
-        r = cmath.pi * self.f * self.mur * self.mu_0
+        r = cmath.pi * self.f * self.mu_0
         r = r / self.sigc
         r = cmath.sqrt(r)
         r = r / l_den
@@ -70,24 +73,23 @@ class Solver:
         return z0
     
     def _ref_coeff(self): 
-        if self.solve_type == "Short": 
-          ref = -1
-        elif self.solve_type == "Open":
-          ref = 1
+        if abs(self.zl) == 0: 
+          self.ref = -1
         else:
-          ref = (self.zl-self.z0)/(self.zl+self.z0)
-        return ref
+          self.ref = (self.zl-self.z0)/(self.zl+self.z0)
+        return self.ref
 
     def _VSWR(self):
-        if self.solve_type == "Short" or self.solve_type == "Open":
-          vswr = cmath.inf
+        if abs(self.zl) == 0:
+          self.vswr = cmath.inf
         else:
-          vswr = (1+abs(self.ref))/(1-abs(self.ref))
-        return vswr
+          self.vswr = (1+abs(self.ref))/(1-abs(self.ref))
+        return self.vswr
     
     def _gain(self):
-        G = 10 * cmath.log10(cmath.exp(-2*self.gamma.real*self.l))
-        return G
+        # G = - 10 * cmath.log10(cmath.exp(-2*self.gamma.real*self.l))
+        self.G = -10 * cmath.log10(1 - (abs(self.ref) ** 2))
+        return self.G
 
     
     def solve(self):
@@ -100,6 +102,46 @@ class Solver:
         print(self.vswr)
         print(self.G)
         
+    def react_to_comp(self, X):
+        if X > 0:
+            return('L', X / self.w)
+        else:
+            return('C', -1 / (X * self.w))
+        
+    def sus_to_comp(self, B):
+        if B > 0:
+            return('L', B / self.w)
+        else:
+            return('C', -1 / (B * self.w))
+        
+    # def idk what im doin
+    # def l_match(self):
+    #     # https://www.silabs.com/documents/public/application-notes/an1275-imp-match-for-network-arch.pdf
+    #     # https://eng.libretexts.org/Bookshelves/Electrical_Engineering/Electronics/Fundamentals_of_Microwave_and_RF_Design_(Steer)/10%3A_Impedance_Matching/10.05%3A__Dealing_with_Complex_Loads
+        
+    #     w = 2 * cmath.pi * self.f
+
 if __name__ == "__main__":
     solv = Solver("Copper", "Air", "Shorted", 2, 4, 6, 1, 1, 1, 1*10**9)
     solv.solve()
+
+    # solv = Solver("Copper", "Air", "Shorted", 2, 4, 6, 1, 1, 1, 1*10**9)
+    # solv.solve()
+
+    # rg58 = Solver("Copper", "Polyethylene", "Dunno", 0.000405, 0.001475, 1, 1, 1, 1, 1000000000)
+    # rg58.solve()
+
+    # rg59 = Solver("Copper", "Polyethylene", "Dunno", 0.00029, 0.00185, 1, 1, 1, 1, 1000000000)
+    # rg59.solve()
+
+    # rg8 = Solver("Copper", "Polyethylene", "Dunno", 0.001085, 0.00362, 1, 1, 1, 1, 1000000000)
+    # rg8.solve()
+
+    # rg142 = Solver("Copper", "Polyethylene", "Dunno", 0.00047, 0.00151, 1, 1, 1, 1, 1000000000)
+    # rg142.solve()
+
+    # airlossless = Solver("Copper", "Air", "Dunno", 0.0005, 0.0015, 1, 1, 1, 1, 1000000000)
+    # airlossless.solve()
+        
+        
+        
