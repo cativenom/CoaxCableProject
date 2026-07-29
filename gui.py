@@ -54,10 +54,6 @@ class CoaxSolver(QMainWindow):
         layout = QVBoxLayout()
         self.setLayout(layout)
 
-        self.buttton_group = QButtonGroup(self)
-        self.buttton_group.setExclusive(True)
-        self.buttton_group.addButton(self.ui.open_shunt_btn, id=1)
-        self.buttton_group.addButton(self.ui.shorted_shunt_btn, id=2)
 
         with open("data/materials.json", "r") as file:
                 data = json.load(file)
@@ -80,6 +76,21 @@ class CoaxSolver(QMainWindow):
             self.ui.b_units.addItem(unit)
             self.ui.c_units.addItem(unit)
             self.ui.length_units.addItem(unit)
+        for unit in units_hz:
+            print(unit)
+            self.ui.hzUnits.addItem(unit)
+        for unit in units_ohm:
+            print(unit)
+            self.ui.ohmUnits_3.addItem(unit)
+            self.ui.ohmUnits.addItem(unit)
+        
+        
+
+        self.ui.open_shunt_box.addItem("Open")
+        self.ui.open_shunt_box.addItem("Shunt")
+        self.ui.stub_shunt_box.addItem("Stub")
+        self.ui.stub_shunt_box.addItem("Shunt")
+
         
 
 

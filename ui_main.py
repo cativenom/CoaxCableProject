@@ -17,20 +17,20 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QGraphicsView, QHBoxLayout,
     QLabel, QLineEdit, QMainWindow, QMenuBar,
-    QPushButton, QRadioButton, QSizePolicy, QSpacerItem,
-    QStatusBar, QVBoxLayout, QWidget)
+    QPushButton, QSizePolicy, QSpacerItem, QStatusBar,
+    QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1232, 637)
+        MainWindow.resize(1003, 635)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.verticalLayout_3 = QVBoxLayout(self.centralwidget)
+        self.verticalLayout_4 = QVBoxLayout(self.centralwidget)
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.verticalLayout_3 = QVBoxLayout()
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.verticalLayout_2 = QVBoxLayout()
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.horizontalLayout_11 = QHBoxLayout()
@@ -199,50 +199,46 @@ class Ui_MainWindow(object):
         self.verticalLayout.addLayout(self.horizontalLayout_10)
 
 
-        self.verticalLayout_2.addLayout(self.verticalLayout)
+        self.verticalLayout_3.addLayout(self.verticalLayout)
 
         self.graphicsView = QGraphicsView(self.centralwidget)
         self.graphicsView.setObjectName(u"graphicsView")
 
-        self.verticalLayout_2.addWidget(self.graphicsView)
+        self.verticalLayout_3.addWidget(self.graphicsView)
 
-        self.horizontalLayout_12 = QHBoxLayout()
-        self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
+        self.verticalLayout_2 = QVBoxLayout()
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.horizontalLayout_6 = QHBoxLayout()
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
-        self.N = QRadioButton(self.centralwidget)
-        self.N.setObjectName(u"N")
+        self.label_13 = QLabel(self.centralwidget)
+        self.label_13.setObjectName(u"label_13")
 
-        self.horizontalLayout_6.addWidget(self.N)
+        self.horizontalLayout_6.addWidget(self.label_13)
 
-        self.shorted_shunt_btn = QRadioButton(self.centralwidget)
-        self.shorted_shunt_btn.setObjectName(u"shorted_shunt_btn")
+        self.open_shunt_box = QComboBox(self.centralwidget)
+        self.open_shunt_box.setObjectName(u"open_shunt_box")
 
-        self.horizontalLayout_6.addWidget(self.shorted_shunt_btn)
+        self.horizontalLayout_6.addWidget(self.open_shunt_box)
 
-        self.both_btn = QRadioButton(self.centralwidget)
-        self.both_btn.setObjectName(u"both_btn")
+        self.stub_shunt_box = QComboBox(self.centralwidget)
+        self.stub_shunt_box.setObjectName(u"stub_shunt_box")
 
-        self.horizontalLayout_6.addWidget(self.both_btn)
-
-        self.open_shunt_btn = QRadioButton(self.centralwidget)
-        self.open_shunt_btn.setObjectName(u"open_shunt_btn")
-        self.open_shunt_btn.setChecked(True)
-
-        self.horizontalLayout_6.addWidget(self.open_shunt_btn)
+        self.horizontalLayout_6.addWidget(self.stub_shunt_box)
 
         self.solve_btn = QPushButton(self.centralwidget)
         self.solve_btn.setObjectName(u"solve_btn")
 
         self.horizontalLayout_6.addWidget(self.solve_btn)
 
+        self.horizontalSpacer = QSpacerItem(468, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-        self.horizontalLayout_12.addLayout(self.horizontalLayout_6)
+        self.horizontalLayout_6.addItem(self.horizontalSpacer)
 
-        self.horizontalSpacer = QSpacerItem(258, 22, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-        self.horizontalLayout_12.addItem(self.horizontalSpacer)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_6)
 
+        self.horizontalLayout_12 = QHBoxLayout()
+        self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
         self.horizontalLayout_5 = QHBoxLayout()
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.label_12 = QLabel(self.centralwidget)
@@ -275,16 +271,51 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_12.addLayout(self.horizontalLayout_5)
 
+        self.horizontalLayout_14 = QHBoxLayout()
+        self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
+        self.label_16 = QLabel(self.centralwidget)
+        self.label_16.setObjectName(u"label_16")
+
+        self.horizontalLayout_14.addWidget(self.label_16)
+
+        self.char_impedence_real_3 = QLineEdit(self.centralwidget)
+        self.char_impedence_real_3.setObjectName(u"char_impedence_real_3")
+        self.char_impedence_real_3.setReadOnly(True)
+
+        self.horizontalLayout_14.addWidget(self.char_impedence_real_3)
+
+        self.label_17 = QLabel(self.centralwidget)
+        self.label_17.setObjectName(u"label_17")
+
+        self.horizontalLayout_14.addWidget(self.label_17)
+
+        self.char_impedence_fake_3 = QLineEdit(self.centralwidget)
+        self.char_impedence_fake_3.setObjectName(u"char_impedence_fake_3")
+        self.char_impedence_fake_3.setReadOnly(True)
+
+        self.horizontalLayout_14.addWidget(self.char_impedence_fake_3)
+
+        self.ohmUnits_3 = QComboBox(self.centralwidget)
+        self.ohmUnits_3.setObjectName(u"ohmUnits_3")
+
+        self.horizontalLayout_14.addWidget(self.ohmUnits_3)
+
+
+        self.horizontalLayout_12.addLayout(self.horizontalLayout_14)
+
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_12)
 
 
         self.verticalLayout_3.addLayout(self.verticalLayout_2)
 
+
+        self.verticalLayout_4.addLayout(self.verticalLayout_3)
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1232, 20))
+        self.menubar.setGeometry(QRect(0, 0, 1003, 20))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -301,11 +332,11 @@ class Ui_MainWindow(object):
         self.freqlineEdit.setText(QCoreApplication.translate("MainWindow", u"1000000000", None))
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"Conductor", None))
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"Dielectric", None))
-        self.label_5.setText(QCoreApplication.translate("MainWindow", u"Z_L = ", None))
+        self.label_5.setText(QCoreApplication.translate("MainWindow", u"Z<sub>L = ", None))
         self.real_impedence.setText(QCoreApplication.translate("MainWindow", u"1", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"+ j", None))
         self.fake_impedence.setText(QCoreApplication.translate("MainWindow", u"1", None))
-        self.label_7.setText(QCoreApplication.translate("MainWindow", u"Ohms", None))
+        self.label_7.setText(QCoreApplication.translate("MainWindow", u"\u03a9", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"a = ", None))
         self.a_lineedit.setText(QCoreApplication.translate("MainWindow", u"2", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"b = ", None))
@@ -314,12 +345,11 @@ class Ui_MainWindow(object):
         self.c_lineedit.setText(QCoreApplication.translate("MainWindow", u"6", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"l = ", None))
         self.l_lineedit.setText(QCoreApplication.translate("MainWindow", u"1", None))
-        self.N.setText(QCoreApplication.translate("MainWindow", u"Neither", None))
-        self.shorted_shunt_btn.setText(QCoreApplication.translate("MainWindow", u"Shorted Shunt", None))
-        self.both_btn.setText(QCoreApplication.translate("MainWindow", u"Both", None))
-        self.open_shunt_btn.setText(QCoreApplication.translate("MainWindow", u"Open Shunt", None))
+        self.label_13.setText(QCoreApplication.translate("MainWindow", u"Solve for", None))
         self.solve_btn.setText(QCoreApplication.translate("MainWindow", u"Solve", None))
-        self.label_12.setText(QCoreApplication.translate("MainWindow", u"Z_o = ", None))
+        self.label_12.setText(QCoreApplication.translate("MainWindow", u"Z<sub>o = ", None))
         self.label_14.setText(QCoreApplication.translate("MainWindow", u"+ j", None))
+        self.label_16.setText(QCoreApplication.translate("MainWindow", u"Z<sub>in = ", None))
+        self.label_17.setText(QCoreApplication.translate("MainWindow", u"+ j", None))
     # retranslateUi
 
