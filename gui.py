@@ -258,8 +258,23 @@ def truncate(num):
     sig_figs = 4
     exponent = math.floor(math.log10(abs(num)))
     places = sig_figs - 1 - exponent
-    truncated_num = int(num * (10 ** places)) / (10 ** places)
-    return truncated_num
+    # print("NUM: " + str(num))
+    # print("PLACES: " + str(places))
+    
+    # Hey Zach, this is the fixed truncate. It was just an incorrect division/multiplication
+    # if exponent > 3: 
+    #     truncated_num = int(num / (10 ** places))
+    # elif exponent > -1:
+    #     return int(num)
+    # else:
+    #     truncated_num = int(num * (10 ** places))
+    
+    # Hey Zach, here's just a simple if case that states that if the real/imaginary
+    # is really small in comparison to an exponent to the -9th, it will set it to zero
+    if num < (10 ** -15):
+        return 0
+    
+    return num
 
 if __name__ == "__main__":
     pyside_app = QApplication(sys.argv)
