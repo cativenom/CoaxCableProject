@@ -1,6 +1,6 @@
 import math
 
-from PySide6.QtWidgets import QApplication, QMainWindow, QGraphicsScene, QGraphicsView, QGraphicsItem, QWidget
+from PySide6.QtWidgets import QApplication, QInputDialog, QMainWindow, QGraphicsScene, QGraphicsView, QGraphicsItem, QWidget
 from PySide6.QtCore import Qt, QRectF
 from PySide6.QtGui import QBrush, QPen, QColor
 
@@ -57,6 +57,7 @@ class CoaxSolver(QMainWindow):
 
         for edit in (self.ui.a_lineedit, self.ui.b_lineedit, self.ui.c_lineedit):
             edit.textChanged.connect(self.update_diagram)
+
         
 
         with open("data/materials.json", "r") as file:
@@ -73,6 +74,12 @@ class CoaxSolver(QMainWindow):
             print(diaelectric)
             self.ui.dielectric_select.addItem(diaelectric)
 
+        self.ui.conductor_select.currentTextChanged.connect(self.on_conductor_changed)
+        self.ui.dielectric_select.currentTextChanged.connect(self.on_diaelectric_changed)
+
+            
+
+
         print("-------------- Adding Units --------------")
         for unit in units_meter:
             print(unit)
@@ -83,19 +90,14 @@ class CoaxSolver(QMainWindow):
         for unit in units_hz:
             print(unit)
             self.ui.hzUnits.addItem(unit)
-        for unit in units_ohm:
-            print(unit)
-            self.ui.ohmUnits_3.addItem(unit)
-            self.ui.ohmUnits.addItem(unit)
+
         
         
 
-      
+        #This controls the boxes       
         self.ui.termination_box.addItem("Open")
         self.ui.termination_box.addItem("Shorted")
 
-        self.ui.connection_box.addItem("Series")
-        self.ui.connection_box.addItem("Shunt")
 
 
     def update_diagram(self):
@@ -130,7 +132,35 @@ class CoaxSolver(QMainWindow):
         # outer_conductor = self.scene.addEllipse(250, 250, 300, 300, black_pen, green_brush)
         # dielectric_circle = self.scene.addEllipse(275, 275, 100, 100, black_pen, QBrush(QColor("lightGreen")))
         # inner_conductor = self.scene.addEllipse(300, 300, 50, 50, black_pen, QBrush(QColor("#1e1e2e")))
+
+
+
+    def on_conductor_changed(self, conductor):
+        if conductor == "Other":
+            sigma_c, ok = QInputDialog.getText(self, "Custom Conductor", "Enter conductor conductivity (sigma_c):")
+            if ok:
+                self.custom_conductor = float(sigma_c)
+    
+
+
+    def on_diaelectric_changed(self, diaelectric):
+        if diaelectric == "Other":
+            sigma_d, ok = QInputDialog.getText(self, "Custom Dielectric", "Enter sigma_d:")
+            if ok:
+                self.custom_sigma_d = float(sigma_d)
+            epsilon_d, ok = QInputDialog.getText(self, "Custom Dielectric", "Enter epsilon_d:")
+            if ok:
+                self.custom_epsilon_d = float(epsilon_d)
+            mu, ok = QInputDialog.getText(self, "Custom Dielectric", "Enter mu:")
+            if ok:
+                self.custom_mu = float(mu)
+          
         
+        
+
+
+
+
     #Events fire after an action has occured for example show is when the window becomes visible and resize is when the user resizes the window
 
     def showEvent(self, event):
@@ -148,13 +178,13 @@ class CoaxSolver(QMainWindow):
         conductor = self.ui.conductor_select.currentText()
         diaelectric = self.ui.dielectric_select.currentText()
         termination_type = self.ui.termination_box.currentText()
-        connection_type = self.ui.connection_box.currentText()
+        connection_type = "Shunt"
         a=float(self.ui.a_lineedit.text()) * CONVERT[self.ui.a_units.currentText()]
         b=float(self.ui.b_lineedit.text()) * CONVERT[self.ui.b_units.currentText()]
         c=float(self.ui.c_lineedit.text()) * CONVERT[self.ui.c_units.currentText()]
         length=float(self.ui.l_lineedit.text()) * CONVERT[self.ui.length_units.currentText()]
-        ReZl=float(self.ui.real_impedence.text()) * CONVERT[self.ui.ohmUnits.currentText()]
-        ImZl=float(self.ui.fake_impedence.text()) * CONVERT[self.ui.ohmUnits.currentText()]
+        ReZl=float(self.ui.real_impedence.text()) #* CONVERT[self.ui.ohmUnits.currentText()]
+        ImZl=float(self.ui.fake_impedence.text()) #* CONVERT[self.ui.ohmUnits.currentText()]
         freq=float(self.ui.freqlineEdit.text()) * CONVERT[self.ui.hzUnits.currentText()]
         beta = (2 * math.pi) / float(length)
 
@@ -177,10 +207,31 @@ class CoaxSolver(QMainWindow):
         
         print("-------------- Solving --------------")
         print(f"{conductor} \n {diaelectric} \n {termination_type} \n {a} \n {b} \n {c} \n {length} \n {ReZl} \n {ImZl} \n {freq}")
-        solver = Solver(str(conductor), str(diaelectric), str(termination_type), float(a), float(b), float(c), float(length), float(ReZl), float(ImZl), float(freq))
+
+
+        if conductor != "Other" and diaelectric != "Other":
+            solver = Solver(str(conductor), str(diaelectric), str(termination_type), float(a), float(b), float(c), float(length), float(ReZl), float(ImZl), float(freq))
+        if conductor == "Other" and diaelectric != "Other":
+            solver = Solver(None, str(diaelectric), str(termination_type), float(a), float(b), float(c), float(length), float(ReZl), float(ImZl), float(freq), sigc=self.custom_conductor)
+        if conductor != "Other" and diaelectric == "Other":
+            solver = Solver(str(conductor), None, str(termination_type), float(a), float(b), float(c), float(length), float(ReZl), float(ImZl), float(freq), sigd=self.custom_sigma_d, epd=self.custom_epsilon_d, mur=self.custom_mu)   
+        if conductor == "Other" and diaelectric == "Other":
+            solver = Solver(None, None, str(termination_type), float(a), float(b), float(c), float(length), float(ReZl), float(ImZl), float(freq), sigc=self.custom_conductor, sigd=self.custom_sigma_d, epd=self.custom_epsilon_d, mur=self.custom_mu)
+
+
         Z_o = solver._char_impedance()
+
+    
+
+        gain = solver._gain()
+        reflection = solver._ref_coeff()
+        vswr = solver._VSWR()
+
         self.ui.char_impedence_fake.setText(str(truncate(Z_o.imag)))
         self.ui.char_impedence_real.setText(str(truncate(Z_o.real)))
+        self.ui.vswr.setText(str(vswr))
+        self.ui.reflection.setText(str(reflection))
+        self.ui.gain.setText(str(gain))
 
     
         match termination_type:
@@ -261,7 +312,7 @@ def truncate(num):
     # print("NUM: " + str(num))
     # print("PLACES: " + str(places))
     
-    # Hey Zach, this is the fixed truncate. It was just an incorrect division/multiplication
+    # Hey Zack, this is the fixed truncate. It was just an incorrect division/multiplication
     # if exponent > 3: 
     #     truncated_num = int(num / (10 ** places))
     # elif exponent > -1:
@@ -269,7 +320,7 @@ def truncate(num):
     # else:
     #     truncated_num = int(num * (10 ** places))
     
-    # Hey Zach, here's just a simple if case that states that if the real/imaginary
+    # Hey Zack, here's just a simple if case that states that if the real/imaginary
     # is really small in comparison to an exponent to the -9th, it will set it to zero
     if num < (10 ** -15):
         return 0

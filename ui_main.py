@@ -24,7 +24,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1003, 635)
+        MainWindow.resize(1139, 665)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout_4 = QVBoxLayout(self.centralwidget)
@@ -220,10 +220,10 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_6.addWidget(self.termination_box)
 
-        self.connection_box = QComboBox(self.centralwidget)
-        self.connection_box.setObjectName(u"connection_box")
+        self.label_25 = QLabel(self.centralwidget)
+        self.label_25.setObjectName(u"label_25")
 
-        self.horizontalLayout_6.addWidget(self.connection_box)
+        self.horizontalLayout_6.addWidget(self.label_25)
 
         self.solve_btn = QPushButton(self.centralwidget)
         self.solve_btn.setObjectName(u"solve_btn")
@@ -237,8 +237,10 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_6)
 
-        self.horizontalLayout_12 = QHBoxLayout()
-        self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
+        self.horizontalLayout_19 = QHBoxLayout()
+        self.horizontalLayout_19.setObjectName(u"horizontalLayout_19")
+        self.horizontalLayout_18 = QHBoxLayout()
+        self.horizontalLayout_18.setObjectName(u"horizontalLayout_18")
         self.horizontalLayout_5 = QHBoxLayout()
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.label_12 = QLabel(self.centralwidget)
@@ -263,48 +265,135 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_5.addWidget(self.char_impedence_fake)
 
-        self.ohmUnits = QComboBox(self.centralwidget)
-        self.ohmUnits.setObjectName(u"ohmUnits")
+        self.label_10 = QLabel(self.centralwidget)
+        self.label_10.setObjectName(u"label_10")
 
-        self.horizontalLayout_5.addWidget(self.ohmUnits)
+        self.horizontalLayout_5.addWidget(self.label_10)
 
 
-        self.horizontalLayout_12.addLayout(self.horizontalLayout_5)
+        self.horizontalLayout_18.addLayout(self.horizontalLayout_5)
 
-        self.horizontalLayout_14 = QHBoxLayout()
-        self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
+        self.horizontalLayout_12 = QHBoxLayout()
+        self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
         self.label_16 = QLabel(self.centralwidget)
         self.label_16.setObjectName(u"label_16")
 
-        self.horizontalLayout_14.addWidget(self.label_16)
+        self.horizontalLayout_12.addWidget(self.label_16)
 
         self.input_impedence_real = QLineEdit(self.centralwidget)
         self.input_impedence_real.setObjectName(u"input_impedence_real")
         self.input_impedence_real.setReadOnly(True)
 
-        self.horizontalLayout_14.addWidget(self.input_impedence_real)
+        self.horizontalLayout_12.addWidget(self.input_impedence_real)
 
         self.label_17 = QLabel(self.centralwidget)
         self.label_17.setObjectName(u"label_17")
 
-        self.horizontalLayout_14.addWidget(self.label_17)
+        self.horizontalLayout_12.addWidget(self.label_17)
 
         self.input_impedence_fake = QLineEdit(self.centralwidget)
         self.input_impedence_fake.setObjectName(u"input_impedence_fake")
         self.input_impedence_fake.setReadOnly(True)
 
-        self.horizontalLayout_14.addWidget(self.input_impedence_fake)
+        self.horizontalLayout_12.addWidget(self.input_impedence_fake)
 
-        self.ohmUnits_3 = QComboBox(self.centralwidget)
-        self.ohmUnits_3.setObjectName(u"ohmUnits_3")
+        self.label_15 = QLabel(self.centralwidget)
+        self.label_15.setObjectName(u"label_15")
 
-        self.horizontalLayout_14.addWidget(self.ohmUnits_3)
-
-
-        self.horizontalLayout_12.addLayout(self.horizontalLayout_14)
+        self.horizontalLayout_12.addWidget(self.label_15)
 
 
-        self.verticalLayout_2.addLayout(self.horizontalLayout_12)
+        self.horizontalLayout_18.addLayout(self.horizontalLayout_12)
+
+
+        self.horizontalLayout_19.addLayout(self.horizontalLayout_18)
+
+        self.horizontalLayout_13 = QHBoxLayout()
+        self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
+        self.label_18 = QLabel(self.centralwidget)
+        self.label_18.setObjectName(u"label_18")
+
+        self.horizontalLayout_13.addWidget(self.label_18)
+
+        self.shunt_stub_length = QLineEdit(self.centralwidget)
+        self.shunt_stub_length.setObjectName(u"shunt_stub_length")
+        self.shunt_stub_length.setReadOnly(True)
+
+        self.horizontalLayout_13.addWidget(self.shunt_stub_length)
+
+        self.label_24 = QLabel(self.centralwidget)
+        self.label_24.setObjectName(u"label_24")
+
+        self.horizontalLayout_13.addWidget(self.label_24)
+
+
+        self.horizontalLayout_19.addLayout(self.horizontalLayout_13)
+
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout_19)
+
+        self.horizontalLayout_17 = QHBoxLayout()
+        self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
+        self.label_23 = QLabel(self.centralwidget)
+        self.label_23.setObjectName(u"label_23")
+
+        self.horizontalLayout_17.addWidget(self.label_23)
+
+        self.horizontalLayout_15 = QHBoxLayout()
+        self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
+        self.label_20 = QLabel(self.centralwidget)
+        self.label_20.setObjectName(u"label_20")
+
+        self.horizontalLayout_15.addWidget(self.label_20)
+
+        self.reflection = QLineEdit(self.centralwidget)
+        self.reflection.setObjectName(u"reflection")
+        self.reflection.setReadOnly(True)
+
+        self.horizontalLayout_15.addWidget(self.reflection)
+
+
+        self.horizontalLayout_17.addLayout(self.horizontalLayout_15)
+
+        self.horizontalLayout_16 = QHBoxLayout()
+        self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
+        self.label_19 = QLabel(self.centralwidget)
+        self.label_19.setObjectName(u"label_19")
+
+        self.horizontalLayout_16.addWidget(self.label_19)
+
+        self.vswr = QLineEdit(self.centralwidget)
+        self.vswr.setObjectName(u"vswr")
+        self.vswr.setReadOnly(True)
+
+        self.horizontalLayout_16.addWidget(self.vswr)
+
+
+        self.horizontalLayout_17.addLayout(self.horizontalLayout_16)
+
+        self.horizontalLayout_14 = QHBoxLayout()
+        self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
+        self.label_21 = QLabel(self.centralwidget)
+        self.label_21.setObjectName(u"label_21")
+
+        self.horizontalLayout_14.addWidget(self.label_21)
+
+        self.gain = QLineEdit(self.centralwidget)
+        self.gain.setObjectName(u"gain")
+        self.gain.setReadOnly(True)
+
+        self.horizontalLayout_14.addWidget(self.gain)
+
+        self.label_22 = QLabel(self.centralwidget)
+        self.label_22.setObjectName(u"label_22")
+
+        self.horizontalLayout_14.addWidget(self.label_22)
+
+
+        self.horizontalLayout_17.addLayout(self.horizontalLayout_14)
+
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout_17)
 
 
         self.verticalLayout_3.addLayout(self.verticalLayout_2)
@@ -315,7 +404,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1003, 22))
+        self.menubar.setGeometry(QRect(0, 0, 1139, 20))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -346,10 +435,20 @@ class Ui_MainWindow(object):
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"l = ", None))
         self.l_lineedit.setText(QCoreApplication.translate("MainWindow", u"1", None))
         self.label_13.setText(QCoreApplication.translate("MainWindow", u"Solve for", None))
+        self.label_25.setText(QCoreApplication.translate("MainWindow", u"Shunt", None))
         self.solve_btn.setText(QCoreApplication.translate("MainWindow", u"Solve", None))
         self.label_12.setText(QCoreApplication.translate("MainWindow", u"Z<sub>o = ", None))
         self.label_14.setText(QCoreApplication.translate("MainWindow", u"+ j", None))
+        self.label_10.setText(QCoreApplication.translate("MainWindow", u"\u03a9", None))
         self.label_16.setText(QCoreApplication.translate("MainWindow", u"Z<sub>in = ", None))
         self.label_17.setText(QCoreApplication.translate("MainWindow", u"+ j", None))
+        self.label_15.setText(QCoreApplication.translate("MainWindow", u"\u03a9", None))
+        self.label_18.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>Shunt Stub Length = </p></body></html>", None))
+        self.label_24.setText(QCoreApplication.translate("MainWindow", u"m", None))
+        self.label_23.setText(QCoreApplication.translate("MainWindow", u"Unmatched Line:", None))
+        self.label_20.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>\u0393 =</p></body></html>", None))
+        self.label_19.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>VSWR =</p></body></html>", None))
+        self.label_21.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>Gain =</p></body></html>", None))
+        self.label_22.setText(QCoreApplication.translate("MainWindow", u"dB", None))
     # retranslateUi
 
