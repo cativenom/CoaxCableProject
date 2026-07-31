@@ -217,7 +217,7 @@ class CoaxSolver(QMainWindow):
         if conductor == "Other" and diaelectric == "Other":
             solver = Solver(None, None, str(termination_type), float(a), float(b), float(c), float(length), float(ReZl), float(ImZl), float(freq), sigc=self.custom_conductor, sigd=self.custom_sigma_d, epd=self.custom_epsilon_d, mur=self.custom_mu)
 
-
+        solver.solve()
         Z_o = solver._char_impedance()
 
     
