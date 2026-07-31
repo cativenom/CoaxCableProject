@@ -7,12 +7,12 @@ class Solver:
                 data = json.load(file)
                 
         # Material Stuff
-        if conductor is not None:
+        if conductor is "Other":
             self.sigc = data["conductor"][conductor]["sigc"]
         else:
             self.sigc = sigc
             
-        if dielectric is not None:
+        if dielectric is "Other":
             self.sigd = data["dielectric"][dielectric]["sigd"]
             self.epd = data["dielectric"][dielectric]["epd"]
             self.mur = data["dielectric"][dielectric]["mur"]
@@ -41,6 +41,7 @@ class Solver:
         
         self.ep = self.eps_0 * self.epd
         self.mu = self.mur * self.mu_0
+
         
     def _dist_params(self):
         c = 2 * cmath.pi * self.ep
@@ -89,9 +90,9 @@ class Solver:
         return self.vswr
     
     def _gain(self):
-        # G = - 10 * cmath.log10(cmath.exp(-2*self.gamma.real*self.l))
-        self.G = -10 * cmath.log10(1 - (abs(self.ref) ** 2))
-        return self.G
+        # self.G =  10 * cmath.log10(cmath.exp(-2*self.gamma.real*self.l))
+        self.G = 10 * cmath.log10(1 - (abs(self.ref) ** 2))
+        return self.G.real
 
     
     def solve(self):
@@ -100,21 +101,23 @@ class Solver:
         self.vswr = self._VSWR()
         self.G = self._gain()
         print(self.z0)
-        # print(self.ref)
-        # print(self.vswr)
-        # print(self.G)
+        print(self.ref)
+        print(self.vswr)
+        print(self.G)
         
-    def react_to_comp(self, X):
-        if X > 0:
-            return('L', X / self.w)
-        else:
-            return('C', -1 / (X * self.w))
+""" Abandoned attempt to solve an L matching network with discrete components """
         
-    def sus_to_comp(self, B):
-        if B > 0:
-            return('L', B / self.w)
-        else:
-            return('C', -1 / (B * self.w))
+    # def react_to_comp(self, X):
+    #     if X > 0:
+    #         return('L', X / self.w)
+    #     else:
+    #         return('C', -1 / (X * self.w))
+        
+    # def sus_to_comp(self, B):
+    #     if B > 0:
+    #         return('L', B / self.w)
+    #     else:
+    #         return('C', -1 / (B * self.w))
         
     # def idk what im doin
     # def l_match(self):
