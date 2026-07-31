@@ -5,6 +5,7 @@ from typing import Optional
 class stubSolver:
     def __init__(self, real: float, fake: float, z0real: float, z0fake: float, beta: float, gamma: complex, length: float, short: Optional[bool]):
         
+        # Initializing variables
         self.Z0 = complex(z0real, z0fake)
         self.load = complex(real, fake)
         self.beta = beta
@@ -12,6 +13,7 @@ class stubSolver:
         self.length = length
         self.short = short
 
+    # using the identity formula for Zin to solve for the input impedance
     def input_impedance(self):
         tanh_gl = cmath.tanh(self.gamma * self.length)
 
@@ -23,10 +25,12 @@ class stubSolver:
             ZL = self.load
             return self.Z0 * (ZL + self.Z0 * tanh_gl) / (self.Z0 + ZL * tanh_gl)
 
+    # an identity function outputing the imaginary output
     def input_reactance(self):
         return self.input_impedance().imag
 
 
+# if the file is called as the main function
 if __name__ == "__main__":
     beta = 1.0
     length = 0.125

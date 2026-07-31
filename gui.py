@@ -33,6 +33,7 @@ MODERN_THEME = """
     QPlainTextEdit { background-color: #11111b; color: #cdd6f4; border: 1px solid #313244; padding: 8px; border-radius: 4px; }
 """
 
+# Written Unit conversion method
 units_meter = ["m", "cm", "mm", "µm", "nm"]
 units_hz = ["Hz", "kHz", "MHz", "GHz", "THz"]
 units_ohm = ["Ω", "pΩ", "nΩ","µΩ","mΩ", "kΩ", "MΩ"]
@@ -42,7 +43,7 @@ CONVERT = {"m": 1, "cm" : 1e-2, "mm" : 1e-3, "µm": 1e-6, "nm" : 1e-9,
            "Ω": 1, "pΩ" : 1e-12, "nΩ" : 1e-9, "µΩ": 1e-6, "mΩ" : 1e-3, "kΩ" : 1e3, "MΩ" : 1e6,}
 
 
-
+# CoaxSolver main class
 class CoaxSolver(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -59,7 +60,7 @@ class CoaxSolver(QMainWindow):
             edit.textChanged.connect(self.update_diagram)
 
         
-
+        # opening relevant json file with needed data
         with open("data/materials.json", "r") as file:
                 data = json.load(file)
 
@@ -97,8 +98,6 @@ class CoaxSolver(QMainWindow):
         #This controls the boxes       
         self.ui.termination_box.addItem("Open")
         self.ui.termination_box.addItem("Shorted")
-
-
 
     def update_diagram(self):
         try:
@@ -233,7 +232,6 @@ class CoaxSolver(QMainWindow):
         self.ui.reflection.setText(str(reflection))
         self.ui.gain.setText(str(gain))
 
-    
         match termination_type:
             case "Open":
                 short = False
@@ -262,6 +260,7 @@ class CoaxSolver(QMainWindow):
                 print("No connection type selected")
                 # ADD ALERT BOX              
 
+        # solving for shunt stub
         stub = stubSolver(real=float(ReZl), fake=float(ImZl), z0real=Z_o.real, z0fake=Z_o.imag,
                             beta=beta, gamma=1j * beta, length=float(length), short=short)
         z_stub = stub.input_impedance()
@@ -299,10 +298,7 @@ class CoaxSolver(QMainWindow):
         #                        beta=beta, gamma=1j * beta, length=float(length), short=shunt)
         #     print(stub.input_impedance())
 
-
-
-
-
+# helper function to truncate ending zeroes to be only a couple decimal points
 def truncate(num):
     if num == 0:
         return num
