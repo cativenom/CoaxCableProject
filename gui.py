@@ -1,8 +1,8 @@
 import math
 
-from PySide6.QtWidgets import QApplication, QInputDialog, QMainWindow, QGraphicsScene, QGraphicsView, QGraphicsItem, QWidget
+from PySide6.QtWidgets import QApplication, QInputDialog, QMainWindow, QGraphicsScene, QGraphicsView, QGraphicsItem, QMessageBox, QWidget
 from PySide6.QtCore import Qt, QRectF
-from PySide6.QtGui import QBrush, QPen, QColor
+from PySide6.QtGui import QBrush, QIcon, QPen, QColor
 
 import sys
 import json
@@ -13,19 +13,23 @@ from stubSolver import stubSolver
 
 MODERN_THEME = """
     QMainWindow { background-color: #1e1e2e; }
-    QTabWidget::pane { border: 1px solid #313244; border-radius: 8px; background-color: #1e1e2e; }
-    QTabBar::tab { background-color: #181825; color: #cdd6f4; padding: 8px 20px; margin-right: 2px; border-top-left-radius: 8px; border-top-right-radius: 8px; }
-    QTabBar::tab:selected { background-color: #313244; font-weight: bold; border-bottom: 2px solid #89b4fa; }
+    
     
     QTableWidget { background-color: #1e1e2e; alternate-background-color: #242436; color: #cdd6f4; gridline-color: #313244; border: none; outline: none; }
     QTableWidget::item:selected { background-color: #89b4fa; color: #11111b; }
     QHeaderView::section { background-color: #313244; color: #cdd6f4; font-weight: bold; padding: 6px; border: none; border-right: 1px solid #45475a; border-bottom: 1px solid #45475a; }
     QHeaderView::section:first { border-top-left-radius: 8px; }
     QHeaderView::section:last { border-top-right-radius: 8px; border-right: none; }
+    QInputDialog {background-color: #1e1e2e;}
 
+    
+    QMessageBox {background-color: #1e1e2e;}
     QLabel { color: #cdd6f4; }
     QLineEdit { background-color: #181825; color: #cdd6f4; border: 1px solid #313244; padding: 8px; border-radius: 4px; }
     QLineEdit:focus { border: 1px solid #89b4fa; }
+    QDoubleSpinBox { background-color: #181825; color: #cdd6f4; border: 1px solid #313244; padding: 8px; border-radius: 4px; }
+    QDoubleSpinBox:focus { border: 1px solid #89b4fa; }
+
     QRadioButton { background-color: #89b4fa; color: #11111b; font-weight: bold; padding: 10px; border-radius: 4px; }
     QComboBox { background-color: #89b4fa; color: #11111b; font-weight: bold; padding: 10px; border-radius: 4px; }
     QPushButton { background-color: #89b4fa; color: #11111b; font-weight: bold; padding: 10px; border-radius: 4px; }
@@ -35,7 +39,7 @@ MODERN_THEME = """
 
 # Written Unit conversion method
 units_meter = ["m", "cm", "mm", "µm", "nm"]
-units_hz = ["Hz", "kHz", "MHz", "GHz", "THz"]
+units_hz = ["MHz", "Hz", "kHz", "GHz", "THz"]
 units_ohm = ["Ω", "pΩ", "nΩ","µΩ","mΩ", "kΩ", "MΩ"]
 
 CONVERT = {"m": 1, "cm" : 1e-2, "mm" : 1e-3, "µm": 1e-6, "nm" : 1e-9,
@@ -51,14 +55,14 @@ class CoaxSolver(QMainWindow):
         self.ui.setupUi(self)
         self.setStyleSheet(MODERN_THEME)
 
-        self.ui.solve_btn.clicked.connect(self.solve)
+        
 
         self.scene = QGraphicsScene(self)
         self.ui.graphicsView.setScene(self.scene)
 
         for edit in (self.ui.a_lineedit, self.ui.b_lineedit, self.ui.c_lineedit):
             edit.textChanged.connect(self.update_diagram)
-
+        self.ui.solve_btn.clicked.connect(self.solve)
         
         # opening relevant json file with needed data
         with open("data/materials.json", "r") as file:
@@ -136,23 +140,55 @@ class CoaxSolver(QMainWindow):
 
     def on_conductor_changed(self, conductor):
         if conductor == "Other":
-            sigma_c, ok = QInputDialog.getText(self, "Custom Conductor", "Enter conductor conductivity (sigma_c):")
-            if ok:
-                self.custom_conductor = float(sigma_c)
-    
+            sigma_c, ok = QInputDialog.getText(self, "Custom Conductor", "Enter conductor conductivity (σ_c):")
+
+            #ok checks if the user pressed ok (true) or cancel(false) 
+            if ok:  
+                if sigma_c == "":
+                    QMessageBox.warning(self, "Null Error", "No value entered defaulting to known materials")
+                    self.ui.conductor_select.setCurrentIndex(0)
+                try:
+                    self.custom_conductor = float(sigma_c) 
+                except ValueError:
+                    QMessageBox.warning(self, "NaN Error", "Value entered is not a number defaulting to known materials")
+                    self.ui.conductor_select.setCurrentIndex(0)
+
 
 
     def on_diaelectric_changed(self, diaelectric):
         if diaelectric == "Other":
             sigma_d, ok = QInputDialog.getText(self, "Custom Dielectric", "Enter sigma_d:")
             if ok:
-                self.custom_sigma_d = float(sigma_d)
+                if sigma_d == "":
+                    QMessageBox.warning(self, "Null Error", "No value entered defaulting to known materials")
+                    self.ui.conductor_select.setCurrentIndex(0) 
+                try:
+                    self.custom_sigma_d = float(sigma_d)
+                except ValueError:
+                    QMessageBox.warning(self, "NaN Error", "Value entered is not a number defaulting to known materials")
+                    self.ui.dielectric_select.setCurrentIndex(0)
             epsilon_d, ok = QInputDialog.getText(self, "Custom Dielectric", "Enter epsilon_d:")
             if ok:
-                self.custom_epsilon_d = float(epsilon_d)
+                if epsilon_d == "":
+                    QMessageBox.warning(self, "Null Error", "No value entered defaulting to known materials")
+                    self.ui.dielectric_select.setCurrentIndex(0) 
+                try:
+                    self.custom_epsilon_d = float(epsilon_d)
+                except ValueError:
+                    QMessageBox.warning(self, "NaN Error", "Value entered is not a number defaulting to known materials")
+                    self.ui.dielectric_select.setCurrentIndex(0)
             mu, ok = QInputDialog.getText(self, "Custom Dielectric", "Enter mu:")
             if ok:
-                self.custom_mu = float(mu)
+                if mu == "":
+                    QMessageBox.warning(self, "Null Error", "No value entered defaulting to known materials")
+                    self.ui.dielectric_select.setCurrentIndex(0) 
+                try:
+                    self.custom_mu = float(mu)
+                except ValueError:
+                    QMessageBox.warning(self, "NaN Error", "Value entered is not a number defaulting to known materials")
+                    self.ui.dielectric_select.setCurrentIndex(0)
+
+
           
         
         
@@ -172,6 +208,8 @@ class CoaxSolver(QMainWindow):
         if not rect.isNull():
             self.ui.graphicsView.fitInView(rect, Qt.KeepAspectRatio)
 
+    
+
 
     def solve(self):
         conductor = self.ui.conductor_select.currentText()
@@ -180,7 +218,7 @@ class CoaxSolver(QMainWindow):
         connection_type = "Shunt"
         a=float(self.ui.a_lineedit.text()) * CONVERT[self.ui.a_units.currentText()]
         b=float(self.ui.b_lineedit.text()) * CONVERT[self.ui.b_units.currentText()]
-        c=float(self.ui.c_lineedit.text()) * CONVERT[self.ui.c_units.currentText()]
+        #c=float(self.ui.c_lineedit.text()) * CONVERT[self.ui.c_units.currentText()]
         length=float(self.ui.l_lineedit.text()) * CONVERT[self.ui.length_units.currentText()]
         ReZl=float(self.ui.real_impedence.text()) #* CONVERT[self.ui.ohmUnits.currentText()]
         ImZl=float(self.ui.fake_impedence.text()) #* CONVERT[self.ui.ohmUnits.currentText()]
@@ -209,12 +247,19 @@ class CoaxSolver(QMainWindow):
 
 
         if conductor != "Other" and diaelectric != "Other":
+            print("Solving with no custom materials")
             solver = Solver(str(conductor), str(diaelectric), str(termination_type), float(a), float(b), float(c), float(length), float(ReZl), float(ImZl), float(freq))
-        if conductor == "Other" and diaelectric != "Other":
+
+        elif conductor == "Other" and diaelectric != "Other":
+            print("Solving with custom conductor")
             solver = Solver(None, str(diaelectric), str(termination_type), float(a), float(b), float(c), float(length), float(ReZl), float(ImZl), float(freq), sigc=self.custom_conductor)
-        if conductor != "Other" and diaelectric == "Other":
+
+        elif conductor != "Other" and diaelectric == "Other":
+            print("Solving with custom diaelectric")
             solver = Solver(str(conductor), None, str(termination_type), float(a), float(b), float(c), float(length), float(ReZl), float(ImZl), float(freq), sigd=self.custom_sigma_d, epd=self.custom_epsilon_d, mur=self.custom_mu)   
-        if conductor == "Other" and diaelectric == "Other":
+
+        elif conductor == "Other" and diaelectric == "Other":
+            print("Solving with custom conductor and dielectric")
             solver = Solver(None, None, str(termination_type), float(a), float(b), float(c), float(length), float(ReZl), float(ImZl), float(freq), sigc=self.custom_conductor, sigd=self.custom_sigma_d, epd=self.custom_epsilon_d, mur=self.custom_mu)
 
         solver.solve()
@@ -326,5 +371,7 @@ def truncate(num):
 if __name__ == "__main__":
     pyside_app = QApplication(sys.argv)
     window = CoaxSolver()
+    window.setWindowTitle("Coax Cable Solver")
+    window.setWindowIcon(QIcon("icon.jpg")) #NEED TO FIX OR REMOVE
     window.show()
     sys.exit(pyside_app.exec())

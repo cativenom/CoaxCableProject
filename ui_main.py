@@ -15,16 +15,16 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QComboBox, QGraphicsView, QHBoxLayout,
-    QLabel, QLineEdit, QMainWindow, QMenuBar,
-    QPushButton, QSizePolicy, QSpacerItem, QStatusBar,
-    QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QComboBox, QDoubleSpinBox, QGraphicsView,
+    QHBoxLayout, QLabel, QLineEdit, QMainWindow,
+    QMenuBar, QPushButton, QSizePolicy, QSpacerItem,
+    QStatusBar, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1139, 665)
+        MainWindow.resize(915, 665)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout_4 = QVBoxLayout(self.centralwidget)
@@ -33,8 +33,8 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.horizontalLayout_11 = QHBoxLayout()
-        self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
+        self.horizontalLayout_20 = QHBoxLayout()
+        self.horizontalLayout_20.setObjectName(u"horizontalLayout_20")
         self.horizontalLayout_4 = QHBoxLayout()
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
         self.label_11 = QLabel(self.centralwidget)
@@ -49,12 +49,19 @@ class Ui_MainWindow(object):
 
         self.hzUnits = QComboBox(self.centralwidget)
         self.hzUnits.setObjectName(u"hzUnits")
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.hzUnits.sizePolicy().hasHeightForWidth())
+        self.hzUnits.setSizePolicy(sizePolicy)
 
         self.horizontalLayout_4.addWidget(self.hzUnits)
 
 
-        self.horizontalLayout_11.addLayout(self.horizontalLayout_4)
+        self.horizontalLayout_20.addLayout(self.horizontalLayout_4)
 
+        self.horizontalLayout_8 = QHBoxLayout()
+        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
         self.horizontalLayout_7 = QHBoxLayout()
         self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
         self.label_8 = QLabel(self.centralwidget)
@@ -64,21 +71,33 @@ class Ui_MainWindow(object):
 
         self.conductor_select = QComboBox(self.centralwidget)
         self.conductor_select.setObjectName(u"conductor_select")
+        sizePolicy.setHeightForWidth(self.conductor_select.sizePolicy().hasHeightForWidth())
+        self.conductor_select.setSizePolicy(sizePolicy)
 
         self.horizontalLayout_7.addWidget(self.conductor_select)
 
+
+        self.horizontalLayout_8.addLayout(self.horizontalLayout_7)
+
+        self.horizontalLayout_11 = QHBoxLayout()
+        self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
         self.label_9 = QLabel(self.centralwidget)
         self.label_9.setObjectName(u"label_9")
 
-        self.horizontalLayout_7.addWidget(self.label_9)
+        self.horizontalLayout_11.addWidget(self.label_9)
 
         self.dielectric_select = QComboBox(self.centralwidget)
         self.dielectric_select.setObjectName(u"dielectric_select")
+        sizePolicy.setHeightForWidth(self.dielectric_select.sizePolicy().hasHeightForWidth())
+        self.dielectric_select.setSizePolicy(sizePolicy)
 
-        self.horizontalLayout_7.addWidget(self.dielectric_select)
+        self.horizontalLayout_11.addWidget(self.dielectric_select)
 
 
-        self.horizontalLayout_11.addLayout(self.horizontalLayout_7)
+        self.horizontalLayout_8.addLayout(self.horizontalLayout_11)
+
+
+        self.horizontalLayout_20.addLayout(self.horizontalLayout_8)
 
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
@@ -87,20 +106,20 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_3.addWidget(self.label_5)
 
-        self.real_impedence = QLineEdit(self.centralwidget)
-        self.real_impedence.setObjectName(u"real_impedence")
+        self.doubleSpinBox = QDoubleSpinBox(self.centralwidget)
+        self.doubleSpinBox.setObjectName(u"doubleSpinBox")
 
-        self.horizontalLayout_3.addWidget(self.real_impedence)
+        self.horizontalLayout_3.addWidget(self.doubleSpinBox)
 
         self.label_6 = QLabel(self.centralwidget)
         self.label_6.setObjectName(u"label_6")
 
         self.horizontalLayout_3.addWidget(self.label_6)
 
-        self.fake_impedence = QLineEdit(self.centralwidget)
-        self.fake_impedence.setObjectName(u"fake_impedence")
+        self.doubleSpinBox_2 = QDoubleSpinBox(self.centralwidget)
+        self.doubleSpinBox_2.setObjectName(u"doubleSpinBox_2")
 
-        self.horizontalLayout_3.addWidget(self.fake_impedence)
+        self.horizontalLayout_3.addWidget(self.doubleSpinBox_2)
 
         self.label_7 = QLabel(self.centralwidget)
         self.label_7.setObjectName(u"label_7")
@@ -108,95 +127,115 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.addWidget(self.label_7)
 
 
-        self.horizontalLayout_11.addLayout(self.horizontalLayout_3)
+        self.horizontalLayout_20.addLayout(self.horizontalLayout_3)
+
+        self.horizontalSpacer_2 = QSpacerItem(98, 23, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_20.addItem(self.horizontalSpacer_2)
 
 
-        self.verticalLayout.addLayout(self.horizontalLayout_11)
+        self.verticalLayout.addLayout(self.horizontalLayout_20)
 
-        self.horizontalLayout_10 = QHBoxLayout()
-        self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
+        self.horizontalLayout_21 = QHBoxLayout()
+        self.horizontalLayout_21.setObjectName(u"horizontalLayout_21")
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.label = QLabel(self.centralwidget)
-        self.label.setObjectName(u"label")
+        self.label_27 = QLabel(self.centralwidget)
+        self.label_27.setObjectName(u"label_27")
+        sizePolicy.setHeightForWidth(self.label_27.sizePolicy().hasHeightForWidth())
+        self.label_27.setSizePolicy(sizePolicy)
 
-        self.horizontalLayout_2.addWidget(self.label)
+        self.horizontalLayout_2.addWidget(self.label_27)
 
-        self.a_lineedit = QLineEdit(self.centralwidget)
+        self.a_lineedit = QDoubleSpinBox(self.centralwidget)
         self.a_lineedit.setObjectName(u"a_lineedit")
 
         self.horizontalLayout_2.addWidget(self.a_lineedit)
 
         self.a_units = QComboBox(self.centralwidget)
         self.a_units.setObjectName(u"a_units")
+        sizePolicy.setHeightForWidth(self.a_units.sizePolicy().hasHeightForWidth())
+        self.a_units.setSizePolicy(sizePolicy)
 
         self.horizontalLayout_2.addWidget(self.a_units)
 
 
-        self.horizontalLayout_10.addLayout(self.horizontalLayout_2)
+        self.horizontalLayout_21.addLayout(self.horizontalLayout_2)
 
-        self.horizontalLayout_8 = QHBoxLayout()
-        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
-        self.label_4 = QLabel(self.centralwidget)
-        self.label_4.setObjectName(u"label_4")
+        self.horizontalLayout_10 = QHBoxLayout()
+        self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
+        self.label_26 = QLabel(self.centralwidget)
+        self.label_26.setObjectName(u"label_26")
+        sizePolicy.setHeightForWidth(self.label_26.sizePolicy().hasHeightForWidth())
+        self.label_26.setSizePolicy(sizePolicy)
 
-        self.horizontalLayout_8.addWidget(self.label_4)
+        self.horizontalLayout_10.addWidget(self.label_26)
 
-        self.b_lineedit = QLineEdit(self.centralwidget)
+        self.b_lineedit = QDoubleSpinBox(self.centralwidget)
         self.b_lineedit.setObjectName(u"b_lineedit")
 
-        self.horizontalLayout_8.addWidget(self.b_lineedit)
+        self.horizontalLayout_10.addWidget(self.b_lineedit)
 
         self.b_units = QComboBox(self.centralwidget)
         self.b_units.setObjectName(u"b_units")
+        sizePolicy.setHeightForWidth(self.b_units.sizePolicy().hasHeightForWidth())
+        self.b_units.setSizePolicy(sizePolicy)
 
-        self.horizontalLayout_8.addWidget(self.b_units)
+        self.horizontalLayout_10.addWidget(self.b_units)
 
 
-        self.horizontalLayout_10.addLayout(self.horizontalLayout_8)
+        self.horizontalLayout_21.addLayout(self.horizontalLayout_10)
 
         self.horizontalLayout_9 = QHBoxLayout()
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
         self.label_2 = QLabel(self.centralwidget)
         self.label_2.setObjectName(u"label_2")
+        sizePolicy.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
+        self.label_2.setSizePolicy(sizePolicy)
 
         self.horizontalLayout_9.addWidget(self.label_2)
 
-        self.c_lineedit = QLineEdit(self.centralwidget)
+        self.c_lineedit = QDoubleSpinBox(self.centralwidget)
         self.c_lineedit.setObjectName(u"c_lineedit")
 
         self.horizontalLayout_9.addWidget(self.c_lineedit)
 
         self.c_units = QComboBox(self.centralwidget)
         self.c_units.setObjectName(u"c_units")
+        sizePolicy.setHeightForWidth(self.c_units.sizePolicy().hasHeightForWidth())
+        self.c_units.setSizePolicy(sizePolicy)
 
         self.horizontalLayout_9.addWidget(self.c_units)
 
 
-        self.horizontalLayout_10.addLayout(self.horizontalLayout_9)
+        self.horizontalLayout_21.addLayout(self.horizontalLayout_9)
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.label_3 = QLabel(self.centralwidget)
         self.label_3.setObjectName(u"label_3")
+        sizePolicy.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
+        self.label_3.setSizePolicy(sizePolicy)
 
         self.horizontalLayout.addWidget(self.label_3)
 
-        self.l_lineedit = QLineEdit(self.centralwidget)
+        self.l_lineedit = QDoubleSpinBox(self.centralwidget)
         self.l_lineedit.setObjectName(u"l_lineedit")
 
         self.horizontalLayout.addWidget(self.l_lineedit)
 
         self.length_units = QComboBox(self.centralwidget)
         self.length_units.setObjectName(u"length_units")
+        sizePolicy.setHeightForWidth(self.length_units.sizePolicy().hasHeightForWidth())
+        self.length_units.setSizePolicy(sizePolicy)
 
         self.horizontalLayout.addWidget(self.length_units)
 
 
-        self.horizontalLayout_10.addLayout(self.horizontalLayout)
+        self.horizontalLayout_21.addLayout(self.horizontalLayout)
 
 
-        self.verticalLayout.addLayout(self.horizontalLayout_10)
+        self.verticalLayout.addLayout(self.horizontalLayout_21)
 
 
         self.verticalLayout_3.addLayout(self.verticalLayout)
@@ -404,7 +443,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1139, 20))
+        self.menubar.setGeometry(QRect(0, 0, 915, 22))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -418,22 +457,16 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"Frequency = ", None))
-        self.freqlineEdit.setText(QCoreApplication.translate("MainWindow", u"1000000000", None))
+        self.freqlineEdit.setText(QCoreApplication.translate("MainWindow", u"1", None))
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"Conductor", None))
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"Dielectric", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Z<sub>L = ", None))
-        self.real_impedence.setText(QCoreApplication.translate("MainWindow", u"1", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"+ j", None))
-        self.fake_impedence.setText(QCoreApplication.translate("MainWindow", u"1", None))
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"\u03a9", None))
-        self.label.setText(QCoreApplication.translate("MainWindow", u"a = ", None))
-        self.a_lineedit.setText(QCoreApplication.translate("MainWindow", u"2", None))
-        self.label_4.setText(QCoreApplication.translate("MainWindow", u"b = ", None))
-        self.b_lineedit.setText(QCoreApplication.translate("MainWindow", u"4", None))
+        self.label_27.setText(QCoreApplication.translate("MainWindow", u"Inner Conductor Radius = ", None))
+        self.label_26.setText(QCoreApplication.translate("MainWindow", u"Outer Conductor Radius = ", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"c = ", None))
-        self.c_lineedit.setText(QCoreApplication.translate("MainWindow", u"6", None))
-        self.label_3.setText(QCoreApplication.translate("MainWindow", u"l = ", None))
-        self.l_lineedit.setText(QCoreApplication.translate("MainWindow", u"1", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Length =", None))
         self.label_13.setText(QCoreApplication.translate("MainWindow", u"Solve for", None))
         self.label_25.setText(QCoreApplication.translate("MainWindow", u"Shunt", None))
         self.solve_btn.setText(QCoreApplication.translate("MainWindow", u"Solve", None))
