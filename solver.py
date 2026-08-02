@@ -2,7 +2,7 @@ import json
 import cmath
 
 class Solver:
-    def __init__(self, conductor: str, dielectric: str, solve_type: str, a: float, b: float, c: float, length: float, ReZl: float, ImZl: float, freq: float, sigd=None, epd=None, sigc=None, mur=None):
+    def __init__(self, conductor: str, dielectric: str, solve_type: str, a: float, b: float, ReZl: float, ImZl: float, freq: float, sigd=None, epd=None, sigc=None, mur=None):
         with open("data/materials.json", "r") as file:
                 data = json.load(file)
                 
@@ -27,8 +27,6 @@ class Solver:
         self.solve_type = solve_type
         self.a = a
         self.b = b
-        self.c = c
-        self.l = length
         self.zl = complex(ReZl, ImZl)
         self.f = freq
         
