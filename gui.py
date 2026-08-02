@@ -65,9 +65,9 @@ class CoaxSolver(QMainWindow):
         self.ui.wave_view.setScene(self.wave)
         self.ui.circuit_view.setScene(self.circuit)
 
-        for edit in (self.ui.a_lineedit, self.ui.b_lineedit, self.ui.c_lineedit, self.ui.freqlineEdit):
+        for edit in (self.ui.a_lineedit, self.ui.b_lineedit, self.ui.freqlineEdit):
             edit.textChanged.connect(self.update_diagram)
-        for change in (self.ui.a_units, self.ui.b_units, self.ui.c_units, self.ui.hzUnits):
+        for change in (self.ui.a_units, self.ui.b_units, self.ui.hzUnits):
             change.currentIndexChanged.connect(self.update_diagram)
 
 
@@ -99,7 +99,6 @@ class CoaxSolver(QMainWindow):
             print(unit)
             self.ui.a_units.addItem(unit)
             self.ui.b_units.addItem(unit)
-            self.ui.c_units.addItem(unit)
             self.ui.length_units.addItem(unit)
         for unit in units_hz:
             print(unit)
@@ -176,21 +175,16 @@ class CoaxSolver(QMainWindow):
     def update_coax(self):
         try:
             a = float(self.ui.a_lineedit.text()) * CONVERT[self.ui.a_units.currentText()]
-            b = float(self.ui.b_lineedit.text()) * CONVERT[self.ui.b_units.currentText()]
-            c = float(self.ui.c_lineedit.text())    
+            b = float(self.ui.b_lineedit.text()) * CONVERT[self.ui.b_units.currentText()]   
         except (ValueError, KeyError):
             return 
-        self.draw_coax(a, b, c)
+        self.draw_coax(a, b)
 
-    def draw_coax(self, a, b, c):
-        if a <= 0 or b <= 0 or c <= 0:
+    def draw_coax(self, a, b):
+        if a <= 0 or b <= 0:
             return
-
-    
-        scale = 200/c #scales to c if was converted it would make the view extremly big
-        c = float(self.ui.c_lineedit.text()) * CONVERT[self.ui.c_units.currentText()]      
-
-        for radius, fill, edge in ((c, "#B5D4F4", "#185FA5"),(b, "#9FE1CB", "#0F6E56"),(a, "#F5C4B3", "#993C1D")):
+        scale = b/200
+        for radius, fill, edge in ((b, "#9FE1CB", "#0F6E56"),(a, "#F5C4B3", "#993C1D")):
             radius_scaled = radius * scale
             self.scene.addEllipse(-radius_scaled, -radius_scaled, 2*radius_scaled, 2* radius_scaled, QPen(QColor(edge), 1), QBrush(QColor(fill)))
         self.ui.graphicsView.fitInView(self.scene.itemsBoundingRect(), Qt.KeepAspectRatio)
@@ -283,11 +277,6 @@ class CoaxSolver(QMainWindow):
             QMessageBox.warning(self, "Zero Error", "B cannot be zero")
             return 0
         b = b * CONVERT[self.ui.b_units.currentText()]
-        c = float(self.ui.c_lineedit.text())
-        if c == 0:
-            QMessageBox.warning(self, "Zero Error", "C cannot be zero")
-            return 0
-        c = c * CONVERT[self.ui.c_units.currentText()]
 
 
         length=float(self.ui.l_lineedit.text())
@@ -300,24 +289,24 @@ class CoaxSolver(QMainWindow):
 
                 
         print("-------------- Solving --------------")
-        print(f"{conductor} \n {diaelectric} \n {termination_type} \n {a} \n {b} \n {c} \n {length} \n {ReZl} \n {ImZl} \n {freq}")
+        print(f"{conductor} \n {diaelectric} \n {termination_type} \n {a} \n {b} \n {length} \n {ReZl} \n {ImZl} \n {freq}")
 
 
         if conductor != "Other" and diaelectric != "Other":
             print("Solving with no custom materials")
-            solver = Solver(str(conductor), str(diaelectric), str(termination_type), float(a), float(b), float(c), float(length), float(ReZl), float(ImZl), float(freq))
+            solver = Solver(str(conductor), str(diaelectric), str(termination_type), float(a), float(b), float(length), float(ReZl), float(ImZl), float(freq))
 
         elif conductor == "Other" and diaelectric != "Other":
             print("Solving with custom conductor")
-            solver = Solver(None, str(diaelectric), str(termination_type), float(a), float(b), float(c), float(length), float(ReZl), float(ImZl), float(freq), sigc=self.custom_conductor)
+            solver = Solver(None, str(diaelectric), str(termination_type), float(a), float(b), float(length), float(ReZl), float(ImZl), float(freq), sigc=self.custom_conductor)
 
         elif conductor != "Other" and diaelectric == "Other":
             print("Solving with custom diaelectric")
-            solver = Solver(str(conductor), None, str(termination_type), float(a), float(b), float(c), float(length), float(ReZl), float(ImZl), float(freq), sigd=self.custom_sigma_d, epd=self.custom_epsilon_d, mur=self.custom_mu)   
+            solver = Solver(str(conductor), None, str(termination_type), float(a), float(b), float(length), float(ReZl), float(ImZl), float(freq), sigd=self.custom_sigma_d, epd=self.custom_epsilon_d, mur=self.custom_mu)   
 
         elif conductor == "Other" and diaelectric == "Other":
             print("Solving with custom conductor and dielectric")
-            solver = Solver(None, None, str(termination_type), float(a), float(b), float(c), float(length), float(ReZl), float(ImZl), float(freq), sigc=self.custom_conductor, sigd=self.custom_sigma_d, epd=self.custom_epsilon_d, mur=self.custom_mu)
+            solver = Solver(None, None, str(termination_type), float(a), float(b), float(length), float(ReZl), float(ImZl), float(freq), sigc=self.custom_conductor, sigd=self.custom_sigma_d, epd=self.custom_epsilon_d, mur=self.custom_mu)
 
         solver.solve()
         Z_o = solver._char_impedance()
@@ -435,7 +424,6 @@ if __name__ == "__main__":
     #Starter Values so the user sees the diagram
     window.ui.a_lineedit.setValue(1.00)
     window.ui.b_lineedit.setValue(2.00)
-    window.ui.c_lineedit.setValue(3.00)
     window.ui.freqlineEdit.setValue(1.00)
     window.ui.fake_impedence.setValue(1.00)
     window.ui.real_impedence.setValue(1.00)
