@@ -24,13 +24,13 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(915, 665)
+        MainWindow.resize(986, 682)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.verticalLayout_4 = QVBoxLayout(self.centralwidget)
+        self.verticalLayout_5 = QVBoxLayout(self.centralwidget)
+        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.verticalLayout_4 = QVBoxLayout()
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
-        self.verticalLayout_3 = QVBoxLayout()
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.horizontalLayout_20 = QHBoxLayout()
@@ -42,7 +42,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_4.addWidget(self.label_11)
 
-        self.freqlineEdit = QLineEdit(self.centralwidget)
+        self.freqlineEdit = QDoubleSpinBox(self.centralwidget)
         self.freqlineEdit.setObjectName(u"freqlineEdit")
 
         self.horizontalLayout_4.addWidget(self.freqlineEdit)
@@ -106,20 +106,20 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_3.addWidget(self.label_5)
 
-        self.doubleSpinBox = QDoubleSpinBox(self.centralwidget)
-        self.doubleSpinBox.setObjectName(u"doubleSpinBox")
+        self.real_impedence = QDoubleSpinBox(self.centralwidget)
+        self.real_impedence.setObjectName(u"real_impedence")
 
-        self.horizontalLayout_3.addWidget(self.doubleSpinBox)
+        self.horizontalLayout_3.addWidget(self.real_impedence)
 
         self.label_6 = QLabel(self.centralwidget)
         self.label_6.setObjectName(u"label_6")
 
         self.horizontalLayout_3.addWidget(self.label_6)
 
-        self.doubleSpinBox_2 = QDoubleSpinBox(self.centralwidget)
-        self.doubleSpinBox_2.setObjectName(u"doubleSpinBox_2")
+        self.fake_impedence = QDoubleSpinBox(self.centralwidget)
+        self.fake_impedence.setObjectName(u"fake_impedence")
 
-        self.horizontalLayout_3.addWidget(self.doubleSpinBox_2)
+        self.horizontalLayout_3.addWidget(self.fake_impedence)
 
         self.label_7 = QLabel(self.centralwidget)
         self.label_7.setObjectName(u"label_7")
@@ -238,12 +238,39 @@ class Ui_MainWindow(object):
         self.verticalLayout.addLayout(self.horizontalLayout_21)
 
 
-        self.verticalLayout_3.addLayout(self.verticalLayout)
+        self.verticalLayout_4.addLayout(self.verticalLayout)
+
+        self.horizontalLayout_22 = QHBoxLayout()
+        self.horizontalLayout_22.setObjectName(u"horizontalLayout_22")
+        self.verticalLayout_3 = QVBoxLayout()
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.wave_view = QGraphicsView(self.centralwidget)
+        self.wave_view.setObjectName(u"wave_view")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.wave_view.sizePolicy().hasHeightForWidth())
+        self.wave_view.setSizePolicy(sizePolicy1)
+
+        self.verticalLayout_3.addWidget(self.wave_view)
+
+        self.circuit_view = QGraphicsView(self.centralwidget)
+        self.circuit_view.setObjectName(u"circuit_view")
+        sizePolicy1.setHeightForWidth(self.circuit_view.sizePolicy().hasHeightForWidth())
+        self.circuit_view.setSizePolicy(sizePolicy1)
+
+        self.verticalLayout_3.addWidget(self.circuit_view)
+
+
+        self.horizontalLayout_22.addLayout(self.verticalLayout_3)
 
         self.graphicsView = QGraphicsView(self.centralwidget)
         self.graphicsView.setObjectName(u"graphicsView")
 
-        self.verticalLayout_3.addWidget(self.graphicsView)
+        self.horizontalLayout_22.addWidget(self.graphicsView)
+
+
+        self.verticalLayout_4.addLayout(self.horizontalLayout_22)
 
         self.verticalLayout_2 = QVBoxLayout()
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
@@ -435,15 +462,15 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addLayout(self.horizontalLayout_17)
 
 
-        self.verticalLayout_3.addLayout(self.verticalLayout_2)
+        self.verticalLayout_4.addLayout(self.verticalLayout_2)
 
 
-        self.verticalLayout_4.addLayout(self.verticalLayout_3)
+        self.verticalLayout_5.addLayout(self.verticalLayout_4)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 915, 22))
+        self.menubar.setGeometry(QRect(0, 0, 986, 22))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -457,7 +484,6 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"Frequency = ", None))
-        self.freqlineEdit.setText(QCoreApplication.translate("MainWindow", u"1", None))
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"Conductor", None))
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"Dielectric", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Z<sub>L = ", None))
