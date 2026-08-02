@@ -366,6 +366,7 @@ class CoaxSolver(QMainWindow):
         stub = stubSolver(real=float(ReZl), fake=float(ImZl), z0real=Z_o.real, z0fake=Z_o.imag,
                                     beta=solver.gamma.imag, alpha=solver.gamma.real, gamma=solver.gamma, length=float(length), short=short)
         z_stub = stub.input_impedance()
+        lossy, lossless, delta = stub.required_length(Z_o.imag)
         z_l = float(ReZl) + float(ImZl)
         if connection_type == "Series":
             z_input = z_l + z_stub
@@ -376,6 +377,7 @@ class CoaxSolver(QMainWindow):
             z_input = 1/y_total
             self.ui.input_impedence_real.setText(str(truncate(z_input.real)))
             self.ui.input_impedence_fake.setText(str(truncate(z_input.imag)))
+        self.ui.shunt_stub_length.setText(str(lossy))
         #elif connection_type == "Parallel"
             
         
@@ -411,19 +413,19 @@ def truncate(num):
     # print("PLACES: " + str(places))
     
     # Hey Zack, this is the fixed truncate. It was just an incorrect division/multiplication
-    # if exponent > 3: 
-    #     truncated_num = int(num / (10 ** places))
-    # elif exponent > -1:
-    #     return int(num)
-    # else:
-    #     truncated_num = int(num * (10 ** places))
+    if exponent > 3: 
+        truncated_num = int(num / (10 ** places))
+    elif exponent > -1:
+        return int(num)
+    else:
+        truncated_num = int(num * (10 ** places))
     
     # Hey Zack, here's just a simple if case that states that if the real/imaginary
     # is really small in comparison to an exponent to the -9th, it will set it to zero
-    if num < (10 ** -15):
-        return 0
+    # if num < (10 ** -15):
+    #     return 0
     
-    return num
+    return truncated_num
 
 if __name__ == "__main__":
     pyside_app = QApplication(sys.argv)
