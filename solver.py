@@ -7,12 +7,12 @@ class Solver:
                 data = json.load(file)
                 
         # Material Stuff
-        if conductor is "Other":
+        if conductor is not None:
             self.sigc = data["conductor"][conductor]["sigc"]
         else:
             self.sigc = sigc
             
-        if dielectric is "Other":
+        if dielectric is not None:
             self.sigd = data["dielectric"][dielectric]["sigd"]
             self.epd = data["dielectric"][dielectric]["epd"]
             self.mur = data["dielectric"][dielectric]["mur"]
