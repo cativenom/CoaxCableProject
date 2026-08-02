@@ -44,6 +44,8 @@ class Ui_MainWindow(object):
 
         self.freqlineEdit = QDoubleSpinBox(self.centralwidget)
         self.freqlineEdit.setObjectName(u"freqlineEdit")
+        self.freqlineEdit.setMinimum(1.000000000000000)
+        self.freqlineEdit.setMaximum(100.000000000000000)
 
         self.horizontalLayout_4.addWidget(self.freqlineEdit)
 
@@ -108,6 +110,8 @@ class Ui_MainWindow(object):
 
         self.real_impedence = QDoubleSpinBox(self.centralwidget)
         self.real_impedence.setObjectName(u"real_impedence")
+        self.real_impedence.setMinimum(-100.000000000000000)
+        self.real_impedence.setMaximum(100.000000000000000)
 
         self.horizontalLayout_3.addWidget(self.real_impedence)
 
@@ -118,6 +122,8 @@ class Ui_MainWindow(object):
 
         self.fake_impedence = QDoubleSpinBox(self.centralwidget)
         self.fake_impedence.setObjectName(u"fake_impedence")
+        self.fake_impedence.setMinimum(-100.000000000000000)
+        self.fake_impedence.setMaximum(100.000000000000000)
 
         self.horizontalLayout_3.addWidget(self.fake_impedence)
 
@@ -149,6 +155,8 @@ class Ui_MainWindow(object):
 
         self.a_lineedit = QDoubleSpinBox(self.centralwidget)
         self.a_lineedit.setObjectName(u"a_lineedit")
+        self.a_lineedit.setMinimum(1.000000000000000)
+        self.a_lineedit.setMaximum(100.000000000000000)
 
         self.horizontalLayout_2.addWidget(self.a_lineedit)
 
@@ -173,6 +181,8 @@ class Ui_MainWindow(object):
 
         self.b_lineedit = QDoubleSpinBox(self.centralwidget)
         self.b_lineedit.setObjectName(u"b_lineedit")
+        self.b_lineedit.setMinimum(1.000000000000000)
+        self.b_lineedit.setMaximum(100.000000000000000)
 
         self.horizontalLayout_10.addWidget(self.b_lineedit)
 
@@ -197,6 +207,8 @@ class Ui_MainWindow(object):
 
         self.c_lineedit = QDoubleSpinBox(self.centralwidget)
         self.c_lineedit.setObjectName(u"c_lineedit")
+        self.c_lineedit.setMinimum(1.000000000000000)
+        self.c_lineedit.setMaximum(100.000000000000000)
 
         self.horizontalLayout_9.addWidget(self.c_lineedit)
 
@@ -221,6 +233,8 @@ class Ui_MainWindow(object):
 
         self.l_lineedit = QDoubleSpinBox(self.centralwidget)
         self.l_lineedit.setObjectName(u"l_lineedit")
+        self.l_lineedit.setMinimum(1.000000000000000)
+        self.l_lineedit.setMaximum(100.000000000000000)
 
         self.horizontalLayout.addWidget(self.l_lineedit)
 

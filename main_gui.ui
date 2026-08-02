@@ -31,7 +31,14 @@
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="freqlineEdit"/>
+             <widget class="QDoubleSpinBox" name="freqlineEdit">
+              <property name="minimum">
+               <double>1.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>100.000000000000000</double>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QComboBox" name="hzUnits">
@@ -101,7 +108,14 @@
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="real_impedence"/>
+             <widget class="QDoubleSpinBox" name="real_impedence">
+              <property name="minimum">
+               <double>-100.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>100.000000000000000</double>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QLabel" name="label_6">
@@ -111,7 +125,14 @@
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="fake_impedence"/>
+             <widget class="QDoubleSpinBox" name="fake_impedence">
+              <property name="minimum">
+               <double>-100.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>100.000000000000000</double>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QLabel" name="label_7">
@@ -155,7 +176,14 @@
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="a_lineedit"/>
+             <widget class="QDoubleSpinBox" name="a_lineedit">
+              <property name="minimum">
+               <double>1.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>100.000000000000000</double>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QComboBox" name="a_units">
@@ -185,7 +213,14 @@
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="b_lineedit"/>
+             <widget class="QDoubleSpinBox" name="b_lineedit">
+              <property name="minimum">
+               <double>1.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>100.000000000000000</double>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QComboBox" name="b_units">
@@ -215,7 +250,14 @@
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="c_lineedit"/>
+             <widget class="QDoubleSpinBox" name="c_lineedit">
+              <property name="minimum">
+               <double>1.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>100.000000000000000</double>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QComboBox" name="c_units">
@@ -245,7 +287,14 @@
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="l_lineedit"/>
+             <widget class="QDoubleSpinBox" name="l_lineedit">
+              <property name="minimum">
+               <double>1.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>100.000000000000000</double>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QComboBox" name="length_units">

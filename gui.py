@@ -272,28 +272,26 @@ class CoaxSolver(QMainWindow):
         connection_type = "Shunt"
 
 
-        a=float(self.ui.a_lineedit.text()) 
-        if a == 0:
-            QMessageBox.warning(self, "Zero Error", "B cannot be zero")
-            return 0
-
-        a = a * CONVERT[self.ui.a_units.currentText()]
-        b = float(self.ui.b_lineedit.text()) 
-        if b == 0:
-            QMessageBox.warning(self, "Zero Error", "B cannot be zero")
-            return 0
-        b = b * CONVERT[self.ui.b_units.currentText()]
-        c = float(self.ui.c_lineedit.text())
-        if c == 0:
-            QMessageBox.warning(self, "Zero Error", "C cannot be zero")
-            return 0
-        c = c * CONVERT[self.ui.c_units.currentText()]
+        a = float(self.ui.a_lineedit.text()) * CONVERT[self.ui.a_units.currentText()]
+        b = float(self.ui.b_lineedit.text()) * CONVERT[self.ui.b_units.currentText()]
+        c = float(self.ui.c_lineedit.text()) * CONVERT[self.ui.c_units.currentText()]
 
 
         length=float(self.ui.l_lineedit.text())
         length = length * CONVERT[self.ui.length_units.currentText()]
-        ReZl=float(self.ui.real_impedence.text()) #* CONVERT[self.ui.ohmUnits.currentText()]
-        ImZl=float(self.ui.fake_impedence.text()) #* CONVERT[self.ui.ohmUnits.currentText()]
+        
+        ReZl=float(self.ui.real_impedence.text()) 
+        if ReZl == 0:
+            QMessageBox.warning(self, "Zero Error", "Real load cannot be zero")
+            return 0
+        
+        ImZl=float(self.ui.fake_impedence.text()) 
+        if ImZl == 0:
+            QMessageBox.warning(self, "Zero Error", "Imaginary load cannot be zero")
+            return 0
+
+
+
         freq=float(self.ui.freqlineEdit.text())
         freq = freq * CONVERT[self.ui.hzUnits.currentText()]
         beta = (2 * math.pi) / float(length)
