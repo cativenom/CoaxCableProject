@@ -116,12 +116,8 @@ class CoaxSolver(QMainWindow):
         self.scene.clear()
         if a <= 0 or b <= 0 or c <= 0:
             return
-
-       
-        scale = 200/c #scales to c
-
-
-        for radius, fill, edge in ((c, "#B5D4F4", "#185FA5"),(b, "#9FE1CB", "#0F6E56"),(a, "#F5C4B3", "#993C1D")):
+        scale = 200/b
+        for radius, fill, edge in ((b, "#9FE1CB", "#0F6E56"),(a, "#F5C4B3", "#993C1D")):
             radius_scaled = radius * scale
             self.scene.addEllipse(-radius_scaled, -radius_scaled, 2*radius_scaled, 2* radius_scaled, QPen(QColor(edge), 1), QBrush(QColor(fill)))
         self.ui.graphicsView.fitInView(self.scene.itemsBoundingRect(), Qt.KeepAspectRatio)
@@ -307,7 +303,7 @@ class CoaxSolver(QMainWindow):
 
         # solving for shunt stub
         stub = stubSolver(real=float(ReZl), fake=float(ImZl), z0real=Z_o.real, z0fake=Z_o.imag,
-                            beta=beta, gamma=1j * beta, length=float(length), short=short)
+                            beta=solver.gamma.imag, alpha=solver.gamma.real, gamma=solver.gamma, length=float(length), short=short)
         z_stub = stub.input_impedance()
         z_l = float(ReZl) + float(ImZl)
         if connection_type == "Series":
