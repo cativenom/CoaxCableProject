@@ -183,7 +183,7 @@ class CoaxSolver(QMainWindow):
     def draw_coax(self, a, b):
         if a <= 0 or b <= 0:
             return
-        scale = 200/b
+        scale = b/200
         for radius, fill, edge in ((b, "#9FE1CB", "#0F6E56"),(a, "#F5C4B3", "#993C1D")):
             radius_scaled = radius * scale
             self.scene.addEllipse(-radius_scaled, -radius_scaled, 2*radius_scaled, 2* radius_scaled, QPen(QColor(edge), 1), QBrush(QColor(fill)))
