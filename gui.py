@@ -41,11 +41,10 @@ MODERN_THEME = """
 # Written Unit conversion method
 units_meter = ["m", "cm", "mm", "µm", "nm"]
 units_hz = ["MHz", "Hz", "kHz", "GHz", "THz"]
-units_ohm = ["Ω", "pΩ", "nΩ","µΩ","mΩ", "kΩ", "MΩ"]
 
-CONVERT = {"m": 1, "cm" : 1e-2, "mm" : 1e-3, "µm": 1e-6, "nm" : 1e-9,
-           "Hz" : 1, "kHz" : 1e3, "MHz" : 1e6, "GHz" : 1e9, "THz" : 1e12, 
-           "Ω": 1, "pΩ" : 1e-12, "nΩ" : 1e-9, "µΩ": 1e-6, "mΩ" : 1e-3, "kΩ" : 1e3, "MΩ" : 1e6,}
+#Dictionaries were originally only 1 CONVERT dictionary, but were split to simplify scalar conversion when a new scalar of unit was chosen 
+CONVERT_M = {"m": 1, "cm" : 1e-2, "mm" : 1e-3, "µm": 1e-6, "nm" : 1e-9, }
+CONVERT_Hz = {"Hz" : 1, "kHz" : 1e3, "MHz" : 1e6, "GHz" : 1e9, "THz" : 1e12,}
 
 
 # CoaxSolver main class
@@ -67,7 +66,10 @@ class CoaxSolver(QMainWindow):
 
         for edit in (self.ui.a_lineedit, self.ui.b_lineedit, self.ui.c_lineedit, self.ui.freqlineEdit):
             edit.textChanged.connect(self.update_diagram)
+            
+
         for change in (self.ui.a_units, self.ui.b_units, self.ui.c_units, self.ui.hzUnits):
+            # find = lambda i, index =
             change.currentIndexChanged.connect(self.update_diagram)
 
 
@@ -107,8 +109,9 @@ class CoaxSolver(QMainWindow):
 
         #This controls the boxes       
         self.ui.termination_box.addItem("Open")
-        self.ui.termination_box.addItem("Shorted")
-
+        self.ui.termination_box.addItem("Shorted")      
+            
+                
     def update_diagram(self):
         self.wave.clear()
         self.scene.clear()
@@ -142,7 +145,7 @@ class CoaxSolver(QMainWindow):
 
     def update_wave(self):
         try:
-            freq = float(self.ui.freqlineEdit.text()) * CONVERT[self.ui.hzUnits.currentText()]
+            freq = float(self.ui.freqlineEdit.text()) * CONVERT_Hz[self.ui.hzUnits.currentText()]
         except (ValueError, KeyError):
             print("Error", ValueError, KeyError)
             return 
@@ -175,9 +178,9 @@ class CoaxSolver(QMainWindow):
 
     def update_coax(self):
         try:
-            a = float(self.ui.a_lineedit.text()) * CONVERT[self.ui.a_units.currentText()]
-            b = float(self.ui.b_lineedit.text()) * CONVERT[self.ui.b_units.currentText()]
-            c = float(self.ui.c_lineedit.text())    
+            a = float(self.ui.a_lineedit.text()) * CONVERT_M[self.ui.a_units.currentText()]
+            b = float(self.ui.b_lineedit.text()) * CONVERT_M[self.ui.b_units.currentText()]
+            c = float(self.ui.c_lineedit.text()) * CONVERT_M[self.ui.b_units.currentText()]   
         except (ValueError, KeyError):
             return 
         self.draw_coax(a, b, c)
@@ -188,7 +191,7 @@ class CoaxSolver(QMainWindow):
 
     
         scale = 200/c #scales to c if was converted it would make the view extremly big
-        c = float(self.ui.c_lineedit.text()) * CONVERT[self.ui.c_units.currentText()]      
+        c = float(self.ui.c_lineedit.text()) * CONVERT_M[self.ui.c_units.currentText()]      
 
         for radius, fill, edge in ((c, "#B5D4F4", "#185FA5"),(b, "#9FE1CB", "#0F6E56"),(a, "#F5C4B3", "#993C1D")):
             radius_scaled = radius * scale
@@ -277,25 +280,25 @@ class CoaxSolver(QMainWindow):
             QMessageBox.warning(self, "Zero Error", "B cannot be zero")
             return 0
 
-        a = a * CONVERT[self.ui.a_units.currentText()]
+        a = a * CONVERT_M[self.ui.a_units.currentText()]
         b = float(self.ui.b_lineedit.text()) 
         if b == 0:
             QMessageBox.warning(self, "Zero Error", "B cannot be zero")
             return 0
-        b = b * CONVERT[self.ui.b_units.currentText()]
+        b = b * CONVERT_M[self.ui.b_units.currentText()]
         c = float(self.ui.c_lineedit.text())
         if c == 0:
             QMessageBox.warning(self, "Zero Error", "C cannot be zero")
             return 0
-        c = c * CONVERT[self.ui.c_units.currentText()]
+        c = c * CONVERT_M[self.ui.c_units.currentText()]
 
 
         length=float(self.ui.l_lineedit.text())
-        length = length * CONVERT[self.ui.length_units.currentText()]
-        ReZl=float(self.ui.real_impedence.text()) #* CONVERT[self.ui.ohmUnits.currentText()]
-        ImZl=float(self.ui.fake_impedence.text()) #* CONVERT[self.ui.ohmUnits.currentText()]
+        length = length * CONVERT_M[self.ui.length_units.currentText()]
+        ReZl=float(self.ui.real_impedence.text())
+        ImZl=float(self.ui.fake_impedence.text())
         freq=float(self.ui.freqlineEdit.text())
-        freq = freq * CONVERT[self.ui.hzUnits.currentText()]
+        freq = freq * CONVERT_Hz[self.ui.hzUnits.currentText()]
         beta = (2 * math.pi) / float(length)
 
                 
