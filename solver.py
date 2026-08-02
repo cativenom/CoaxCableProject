@@ -1,8 +1,9 @@
 import json
 import cmath
+import unittest
 
 class Solver:
-    def __init__(self, conductor: str, dielectric: str, solve_type: str, a: float, b: float, c: float, length: float, ReZl: float, ImZl: float, freq: float, sigd=None, epd=None, sigc=None, mur=None):
+    def __init__(self, conductor: str, dielectric: str, solve_type: str, a: float, b: float, ReZl: float, ImZl: float, freq: float, sigd=None, epd=None, sigc=None, mur=None):
         with open("data/materials.json", "r") as file:
                 data = json.load(file)
                 
@@ -27,8 +28,6 @@ class Solver:
         self.solve_type = solve_type
         self.a = a
         self.b = b
-        self.c = c
-        self.l = length
         self.zl = complex(ReZl, ImZl)
         self.f = freq
         
@@ -101,9 +100,9 @@ class Solver:
         self.vswr = self._VSWR()
         self.G = self._gain()
         print(self.z0)
-        print(self.ref)
-        print(self.vswr)
-        print(self.G)
+        # print(self.ref)
+        # print(self.vswr)
+        # print(self.G)
         
 """ Abandoned attempt to solve an L matching network with discrete components """
         
@@ -125,28 +124,34 @@ class Solver:
     #     # https://eng.libretexts.org/Bookshelves/Electrical_Engineering/Electronics/Fundamentals_of_Microwave_and_RF_Design_(Steer)/10%3A_Impedance_Matching/10.05%3A__Dealing_with_Complex_Loads
         
     #     w = 2 * cmath.pi * self.f
+    
+
 
 if __name__ == "__main__":
-    # solv = Solver("Copper", "Air", "Shorted", 2, 4, 6, 1, 1, 1, 1*10**9)
+    # solv = Solver("Copper", "Air", "Shorted", 2, 4, 6, 1, 1*10**9)
     # solv.solve()
 
-    # solv = Solver("Copper", "Air", "Shorted", 2, 4, 6, 1, 1, 1, 1*10**9)
+    # solv = Solver("Copper", "Air", "Shorted", 2, 4, 6, 1, 1*10**9)
     # solv.solve()
 
-    rg58 = Solver("Copper", "Polyethylene", "Dunno", 0.000405, 0.001475, 1, 1, 1, 1, 1000000000)
+    rg58 = Solver("Copper", "Polyethylene", "Dunno", 0.000405, 0.001475, 1, 1, 1000000000)
     rg58.solve()
 
-    # rg59 = Solver("Copper", "Polyethylene", "Dunno", 0.00029, 0.00185, 1, 1, 1, 1, 1000000000)
+    # rg59 = Solver("Copper", "Polyethylene", "Dunno", 0.00029, 0.00185, 1, 1, 1000000000)
     # rg59.solve()
 
-    # rg8 = Solver("Copper", "Polyethylene", "Dunno", 0.001085, 0.00362, 1, 1, 1, 1, 1000000000)
+    # rg8 = Solver("Copper", "Polyethylene", "Dunno", 0.001085, 0.00362, 1, 1, 1000000000)
     # rg8.solve()
 
-    # rg142 = Solver("Copper", "Polyethylene", "Dunno", 0.00047, 0.00151, 1, 1, 1, 1, 1000000000)
+    # rg142 = Solver("Copper", "Polyethylene", "Dunno", 0.00047, 0.00151, 1, 1, 1000000000)
     # rg142.solve()
 
-    # airlossless = Solver("Copper", "Air", "Dunno", 0.0005, 0.0015, 1, 1, 1, 1, 1000000000)
+    # airlossless = Solver("Copper", "Air", "Dunno", 0.0005, 0.0015, 1, 1, 1000000000)
     # airlossless.solve()
+    
+
+    
+    
         
         
         
