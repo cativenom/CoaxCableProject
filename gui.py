@@ -280,23 +280,23 @@ class CoaxSolver(QMainWindow):
             QMessageBox.warning(self, "Zero Error", "B cannot be zero")
             return 0
 
-        a = a * CONVERT[self.ui.a_units.currentText()]
+        a = a * CONVERT_M[self.ui.a_units.currentText()]
         b = float(self.ui.b_lineedit.text()) 
         if b == 0:
             QMessageBox.warning(self, "Zero Error", "B cannot be zero")
             return 0
-        b = b * CONVERT[self.ui.b_units.currentText()]
+        b = b * CONVERT_M[self.ui.b_units.currentText()]
         c = float(self.ui.c_lineedit.text())
         if c == 0:
             QMessageBox.warning(self, "Zero Error", "C cannot be zero")
             return 0
-        c = c * CONVERT[self.ui.c_units.currentText()]
+        c = c * CONVERT_M[self.ui.c_units.currentText()]
 
 
         length=float(self.ui.l_lineedit.text())
-        length = length * CONVERT[self.ui.length_units.currentText()]
-        ReZl=float(self.ui.real_impedence.text()) #* CONVERT[self.ui.ohmUnits.currentText()]
-        ImZl=float(self.ui.fake_impedence.text()) #* CONVERT[self.ui.ohmUnits.currentText()]
+        length = length * CONVERT_M[self.ui.length_units.currentText()]
+        ReZl=float(self.ui.real_impedence.text()) 
+        ImZl=float(self.ui.fake_impedence.text())
         freq=float(self.ui.freqlineEdit.text())
         freq = freq * CONVERT_Hz[self.ui.hzUnits.currentText()]
         beta = (2 * math.pi) / float(length)
