@@ -364,7 +364,7 @@ class CoaxSolver(QMainWindow):
 
         # solving for shunt stub
         stub = stubSolver(real=float(ReZl), fake=float(ImZl), z0real=Z_o.real, z0fake=Z_o.imag,
-                            beta=beta, gamma=1j * beta, length=float(length), short=short)
+                            beta=solver.gamma.imag, alpha=solver.gamma.real, gamma=solver.gamma, length=float(length), short=short)
         z_stub = stub.input_impedance()
         z_l = float(ReZl) + float(ImZl)
         if connection_type == "Series":
