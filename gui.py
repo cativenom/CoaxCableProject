@@ -2,7 +2,7 @@ import math
 
 from PySide6.QtWidgets import QApplication, QInputDialog, QMainWindow, QGraphicsScene, QGraphicsView, QGraphicsItem, QMessageBox, QWidget
 from PySide6.QtCore import Qt, QRectF
-from PySide6.QtGui import QBrush, QIcon, QPainterPath, QPen, QColor
+from PySide6.QtGui import QBrush, QIcon, QPen, QColor
 
 import sys
 import json
@@ -35,7 +35,6 @@ MODERN_THEME = """
     QPushButton { background-color: #89b4fa; color: #11111b; font-weight: bold; padding: 10px; border-radius: 4px; }
     QPushButton:hover { background-color: #74c7ec; }
     QPlainTextEdit { background-color: #11111b; color: #cdd6f4; border: 1px solid #313244; padding: 8px; border-radius: 4px; }
-    QGraphicsView {background-color: #1e1e2e;}
 """
 
 # Written Unit conversion method
@@ -59,18 +58,10 @@ class CoaxSolver(QMainWindow):
         
 
         self.scene = QGraphicsScene(self)
-        self.wave = QGraphicsScene(self)
-        self.circuit = QGraphicsScene(self)
         self.ui.graphicsView.setScene(self.scene)
-        self.ui.wave_view.setScene(self.wave)
-        self.ui.circuit_view.setScene(self.circuit)
 
-        for edit in (self.ui.a_lineedit, self.ui.b_lineedit, self.ui.freqlineEdit):
+        for edit in (self.ui.a_lineedit, self.ui.b_lineedit, self.ui.c_lineedit):
             edit.textChanged.connect(self.update_diagram)
-        for change in (self.ui.a_units, self.ui.b_units, self.ui.hzUnits):
-            change.currentIndexChanged.connect(self.update_diagram)
-
-
         self.ui.solve_btn.clicked.connect(self.solve)
         
         # opening relevant json file with needed data
@@ -99,95 +90,52 @@ class CoaxSolver(QMainWindow):
             print(unit)
             self.ui.a_units.addItem(unit)
             self.ui.b_units.addItem(unit)
+            self.ui.c_units.addItem(unit)
             self.ui.length_units.addItem(unit)
         for unit in units_hz:
             print(unit)
             self.ui.hzUnits.addItem(unit)
+
+        
+        
 
         #This controls the boxes       
         self.ui.termination_box.addItem("Open")
         self.ui.termination_box.addItem("Shorted")
 
     def update_diagram(self):
-        self.wave.clear()
-        self.scene.clear()
-        self.scene.clear()
-        self.update_wave()
-        self.update_coax()
-        self.update_circuit()
-
-
-    def update_circuit(self):
-        self.draw_circuit()
-        pass
-
-    def draw_circuit(self):
-        pen = QPen(QColor("#89b4fa"), 2)
-        self.circuit.addLine(0, 0, 200, 0, pen=pen)
-
-
-        self.circuit.addLine(100,0, 100,100, pen=pen)
-        self.circuit.addLine(95, 120, 105, 120, pen=pen)
-        self.circuit.addLine(90, 110, 110, 110, pen=pen)
-        self.circuit.addLine(80, 100, 120, 100, pen=pen)
-
-        self.circuit.addRect(200, -12.5, 25, 25, pen)
-        self.circuit.addEllipse(-12.5, -12.5, 25, 25, pen=pen)
-
-        #circuit_rect = self.circuit.itemsBoundingRect()
-        #self.ui.circuit_view.fitInView(circuit_rect, Qt.IgnoreAspectRatio)
-
-
-
-    def update_wave(self):
-        try:
-            freq = float(self.ui.freqlineEdit.text()) * CONVERT[self.ui.hzUnits.currentText()]
-        except (ValueError, KeyError):
-            print("Error", ValueError, KeyError)
-            return 
-        print(freq)
-        if freq != 0:
-            self.draw_wave(freq)
-
-
-    def draw_wave(self, freq, ampltuide=20, width=200, points=2000):
-        print("Drawing Wave")
-        path = QPainterPath()
-        cycles = max(1, 1 + math.log10(freq/1e6))
-        for i in range(points + 1):
-            x = (i/points) * width
-            y = ampltuide * math.sin(2*math.pi * cycles * (i/points))
-            if i == 0:
-                path.moveTo(x,y)
-            else:
-                path.lineTo(x,y)
-        pen = QPen(QColor("#89b4fa"), 2)
-        pen.setCosmetic(True)
-        self.wave.addPath(path,pen)
-
-
-        wave_rect = self.wave.itemsBoundingRect()
-        self.ui.wave_view.fitInView(wave_rect, Qt.IgnoreAspectRatio)
-
-
-
-
-    def update_coax(self):
         try:
             a = float(self.ui.a_lineedit.text()) * CONVERT[self.ui.a_units.currentText()]
-            b = float(self.ui.b_lineedit.text()) * CONVERT[self.ui.b_units.currentText()]   
+            b = float(self.ui.b_lineedit.text()) * CONVERT[self.ui.b_units.currentText()]
+            c = float(self.ui.c_lineedit.text()) * CONVERT[self.ui.c_units.currentText()]      
         except (ValueError, KeyError):
             return 
-        self.draw_coax(a, b)
+        self.draw_scene(a, b, c)
 
-    def draw_coax(self, a, b):
-        if a <= 0 or b <= 0:
+    def draw_scene(self, a, b, c):
+        self.scene.clear()
+        if a <= 0 or b <= 0 or c <= 0:
             return
-        scale = 200/b
-        for radius, fill, edge in ((b, "#9FE1CB", "#0F6E56"),(a, "#F5C4B3", "#993C1D")):
+
+       
+        scale = 200/c #scales to c
+
+
+        for radius, fill, edge in ((c, "#B5D4F4", "#185FA5"),(b, "#9FE1CB", "#0F6E56"),(a, "#F5C4B3", "#993C1D")):
             radius_scaled = radius * scale
             self.scene.addEllipse(-radius_scaled, -radius_scaled, 2*radius_scaled, 2* radius_scaled, QPen(QColor(edge), 1), QBrush(QColor(fill)))
         self.ui.graphicsView.fitInView(self.scene.itemsBoundingRect(), Qt.KeepAspectRatio)
+        
+        # green_brush = QBrush(QColor("lightCyan"))
+        # black_pen = QPen(Qt.cyan)
+        # black_pen.setWidth(.1)
+        
+        # self.scene.setBackgroundBrush(QColor("#1e1e2e"))
+
+        # outer_conductor = self.scene.addEllipse(250, 250, 300, 300, black_pen, green_brush)
+        # dielectric_circle = self.scene.addEllipse(275, 275, 100, 100, black_pen, QBrush(QColor("lightGreen")))
+        # inner_conductor = self.scene.addEllipse(300, 300, 50, 50, black_pen, QBrush(QColor("#1e1e2e")))
+
 
 
     def on_conductor_changed(self, conductor):
@@ -241,8 +189,15 @@ class CoaxSolver(QMainWindow):
                     self.ui.dielectric_select.setCurrentIndex(0)
 
 
+          
+        
+        
+
+
+
 
     #Events fire after an action has occured for example show is when the window becomes visible and resize is when the user resizes the window
+
     def showEvent(self, event):
         super().showEvent(event)
         self.update_diagram()
@@ -253,9 +208,6 @@ class CoaxSolver(QMainWindow):
         if not rect.isNull():
             self.ui.graphicsView.fitInView(rect, Qt.KeepAspectRatio)
 
-        wave_rect = self.wave.itemsBoundingRect()
-        if not wave_rect.isNull():
-            self.ui.wave_view.fitInView(wave_rect, Qt.IgnoreAspectRatio)
     
 
 
@@ -264,49 +216,51 @@ class CoaxSolver(QMainWindow):
         diaelectric = self.ui.dielectric_select.currentText()
         termination_type = self.ui.termination_box.currentText()
         connection_type = "Shunt"
-
-
-        a=float(self.ui.a_lineedit.text()) 
-        if a == 0:
-            QMessageBox.warning(self, "Zero Error", "B cannot be zero")
-            return 0
-
-        a = a * CONVERT[self.ui.a_units.currentText()]
-        b = float(self.ui.b_lineedit.text()) 
-        if b == 0:
-            QMessageBox.warning(self, "Zero Error", "B cannot be zero")
-            return 0
-        b = b * CONVERT[self.ui.b_units.currentText()]
-
-
-        length=float(self.ui.l_lineedit.text())
-        length = length * CONVERT[self.ui.length_units.currentText()]
+        a=float(self.ui.a_lineedit.text()) * CONVERT[self.ui.a_units.currentText()]
+        b=float(self.ui.b_lineedit.text()) * CONVERT[self.ui.b_units.currentText()]
+        #c=float(self.ui.c_lineedit.text()) * CONVERT[self.ui.c_units.currentText()]
+        length=float(self.ui.l_lineedit.text()) * CONVERT[self.ui.length_units.currentText()]
         ReZl=float(self.ui.real_impedence.text()) #* CONVERT[self.ui.ohmUnits.currentText()]
         ImZl=float(self.ui.fake_impedence.text()) #* CONVERT[self.ui.ohmUnits.currentText()]
-        freq=float(self.ui.freqlineEdit.text())
-        freq = freq * CONVERT[self.ui.hzUnits.currentText()]
+        freq=float(self.ui.freqlineEdit.text()) * CONVERT[self.ui.hzUnits.currentText()]
         beta = (2 * math.pi) / float(length)
 
-                
+        # checked_id = self.buttton_group.checkedId()
+        # if checked_id == 2:
+        #     shunt = True 
+        #     both = False
+        # elif checked_id == 1:
+        #     shunt = False
+        #     both = False
+        # elif checked_id == 3:
+        #     shunt = True
+        #     both = True
+        # elif checked_id == 4:
+        #     shunt = False
+        #     both = False
+        # else:
+        #     shunt = None
+        #     both = None 
+        
         print("-------------- Solving --------------")
-        print(f"{conductor} \n {diaelectric} \n {termination_type} \n {a} \n {b} \n {length} \n {ReZl} \n {ImZl} \n {freq}")
+        print(f"{conductor} \n {diaelectric} \n {termination_type} \n {a} \n {b} \n {c} \n {length} \n {ReZl} \n {ImZl} \n {freq}")
 
 
         if conductor != "Other" and diaelectric != "Other":
             print("Solving with no custom materials")
-            solver = Solver(str(conductor), str(diaelectric), str(termination_type), float(a), float(b), float(length), float(ReZl), float(ImZl), float(freq))
+            solver = Solver(str(conductor), str(diaelectric), str(termination_type), float(a), float(b), float(c), float(length), float(ReZl), float(ImZl), float(freq))
 
         elif conductor == "Other" and diaelectric != "Other":
             print("Solving with custom conductor")
-            solver = Solver(None, str(diaelectric), str(termination_type), float(a), float(b), float(length), float(ReZl), float(ImZl), float(freq), sigc=self.custom_conductor)
+            solver = Solver(None, str(diaelectric), str(termination_type), float(a), float(b), float(c), float(length), float(ReZl), float(ImZl), float(freq), sigc=self.custom_conductor)
 
         elif conductor != "Other" and diaelectric == "Other":
             print("Solving with custom diaelectric")
-            solver = Solver(str(conductor), None, str(termination_type), float(a), float(b), float(length), float(ReZl), float(ImZl), float(freq), sigd=self.custom_sigma_d, epd=self.custom_epsilon_d, mur=self.custom_mu)   
+            solver = Solver(str(conductor), None, str(termination_type), float(a), float(b), float(c), float(length), float(ReZl), float(ImZl), float(freq), sigd=self.custom_sigma_d, epd=self.custom_epsilon_d, mur=self.custom_mu)   
 
         elif conductor == "Other" and diaelectric == "Other":
             print("Solving with custom conductor and dielectric")
-            solver = Solver(None, None, str(termination_type), float(a), float(b), float(length), float(ReZl), float(ImZl), float(freq), sigc=self.custom_conductor, sigd=self.custom_sigma_d, epd=self.custom_epsilon_d, mur=self.custom_mu)
+            solver = Solver(None, None, str(termination_type), float(a), float(b), float(c), float(length), float(ReZl), float(ImZl), float(freq), sigc=self.custom_conductor, sigd=self.custom_sigma_d, epd=self.custom_epsilon_d, mur=self.custom_mu)
 
         solver.solve()
         Z_o = solver._char_impedance()
@@ -418,15 +372,6 @@ if __name__ == "__main__":
     pyside_app = QApplication(sys.argv)
     window = CoaxSolver()
     window.setWindowTitle("Coax Cable Solver")
+    window.setWindowIcon(QIcon("icon.jpg")) #NEED TO FIX OR REMOVE
     window.show()
-
-
-    #Starter Values so the user sees the diagram
-    window.ui.a_lineedit.setValue(1.00)
-    window.ui.b_lineedit.setValue(2.00)
-    window.ui.freqlineEdit.setValue(1.00)
-    window.ui.fake_impedence.setValue(1.00)
-    window.ui.real_impedence.setValue(1.00)
-    window.ui.l_lineedit.setValue(1.00)
-
     sys.exit(pyside_app.exec())
