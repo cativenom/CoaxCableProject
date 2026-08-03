@@ -305,8 +305,8 @@ class CoaxSolver(QMainWindow):
         length = length * CONVERT_M[self.ui.length_units.currentText()]
         ReZl=float(self.ui.real_impedence.text()) 
         ImZl=float(self.ui.fake_impedence.text())
-        freq=float(self.ui.freqlineEdit.text())
-        freq = freq * CONVERT_Hz[self.ui.hzUnits.currentText()]
+        # freq=float(self.ui.freqlineEdit.text())
+        freq = float(self.ui.freqlineEdit.text()) * CONVERT_Hz[self.ui.hzUnits.currentText()]
 
                 
         print("-------------- Solving --------------")
@@ -315,22 +315,22 @@ class CoaxSolver(QMainWindow):
 
         if conductor != "Other" and diaelectric != "Other":
             print("Solving with no custom materials")
-            solver = Solver(str(conductor), str(diaelectric), str(termination_type), float(a), float(b), float(c), float(length), float(ReZl), float(ImZl), float(freq))
+            solver = Solver(str(conductor), str(diaelectric), str(termination_type), float(a), float(b), float(ReZl), float(ImZl), float(freq))
 
         elif conductor == "Other" and diaelectric != "Other":
             print("Solving with custom conductor")
-            solver = Solver(None, str(diaelectric), str(termination_type), float(a), float(b), float(c), float(length), float(ReZl), float(ImZl), float(freq), sigc=self.custom_conductor)
+            solver = Solver(None, str(diaelectric), str(termination_type), float(a), float(b), float(ReZl), float(ImZl), float(freq), sigc=self.custom_conductor)
 
         elif conductor != "Other" and diaelectric == "Other":
             print("Solving with custom diaelectric")
-            solver = Solver(str(conductor), None, str(termination_type), float(a), float(b), float(c), float(length), float(ReZl), float(ImZl), float(freq), sigd=self.custom_sigma_d, epd=self.custom_epsilon_d, mur=self.custom_mu)   
+            solver = Solver(str(conductor), None, str(termination_type), float(a), float(b), float(ReZl), float(ImZl), float(freq), sigd=self.custom_sigma_d, epd=self.custom_epsilon_d, mur=self.custom_mu)   
 
         elif conductor == "Other" and diaelectric == "Other":
             print("Solving with custom conductor and dielectric")
-            solver = Solver(None, None, str(termination_type), float(a), float(b), float(c), float(length), float(ReZl), float(ImZl), float(freq), sigc=self.custom_conductor, sigd=self.custom_sigma_d, epd=self.custom_epsilon_d, mur=self.custom_mu)
+            solver = Solver(None, None, str(termination_type), float(a), float(b), float(c), float(ImZl), float(freq), sigc=self.custom_conductor, sigd=self.custom_sigma_d, epd=self.custom_epsilon_d, mur=self.custom_mu)
 
         solver.solve()
-        Z_o = solver._char_impedance()
+        Z_o = solver.z0
 
     
 
