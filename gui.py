@@ -364,8 +364,7 @@ class CoaxSolver(QMainWindow):
         y_stub_target = complex(0, -y_l.imag)
         print("z_target:" + str(ReZl))
         print("z_target:" + str(ImZl))
-        (1.9859807272318277e-07+2.0108028120943912e-07j)
-        (0.04008027389358085+31.507488753927568j)
+
         print("gamma:" + str(solver.gamma))
         print("z_stub:" + str(z_stub))
         print("y_l:" + str(y_l))
