@@ -24,7 +24,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(986, 682)
+        MainWindow.resize(1179, 682)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout_5 = QVBoxLayout(self.centralwidget)
@@ -44,8 +44,10 @@ class Ui_MainWindow(object):
 
         self.freqlineEdit = QDoubleSpinBox(self.centralwidget)
         self.freqlineEdit.setObjectName(u"freqlineEdit")
-        self.freqlineEdit.setMinimum(1.000000000000000)
-        self.freqlineEdit.setMaximum(100.000000000000000)
+        self.freqlineEdit.setDecimals(3)
+        self.freqlineEdit.setMinimum(0.000000000000000)
+        self.freqlineEdit.setMaximum(1000.000000000000000)
+        self.freqlineEdit.setSingleStep(0.001000000000000)
 
         self.horizontalLayout_4.addWidget(self.freqlineEdit)
 
@@ -155,8 +157,10 @@ class Ui_MainWindow(object):
 
         self.a_lineedit = QDoubleSpinBox(self.centralwidget)
         self.a_lineedit.setObjectName(u"a_lineedit")
-        self.a_lineedit.setMinimum(1.000000000000000)
-        self.a_lineedit.setMaximum(100.000000000000000)
+        self.a_lineedit.setDecimals(3)
+        self.a_lineedit.setMinimum(0.000000000000000)
+        self.a_lineedit.setMaximum(1000.000000000000000)
+        self.a_lineedit.setSingleStep(0.001000000000000)
 
         self.horizontalLayout_2.addWidget(self.a_lineedit)
 
@@ -181,8 +185,10 @@ class Ui_MainWindow(object):
 
         self.b_lineedit = QDoubleSpinBox(self.centralwidget)
         self.b_lineedit.setObjectName(u"b_lineedit")
-        self.b_lineedit.setMinimum(1.000000000000000)
-        self.b_lineedit.setMaximum(100.000000000000000)
+        self.b_lineedit.setDecimals(3)
+        self.b_lineedit.setMinimum(0.000000000000000)
+        self.b_lineedit.setMaximum(1000.000000000000000)
+        self.b_lineedit.setSingleStep(0.001000000000000)
 
         self.horizontalLayout_10.addWidget(self.b_lineedit)
 
@@ -207,8 +213,10 @@ class Ui_MainWindow(object):
 
         self.c_lineedit = QDoubleSpinBox(self.centralwidget)
         self.c_lineedit.setObjectName(u"c_lineedit")
-        self.c_lineedit.setMinimum(1.000000000000000)
-        self.c_lineedit.setMaximum(100.000000000000000)
+        self.c_lineedit.setDecimals(3)
+        self.c_lineedit.setMinimum(0.000000000000000)
+        self.c_lineedit.setMaximum(1000.000000000000000)
+        self.c_lineedit.setSingleStep(0.001000000000000)
 
         self.horizontalLayout_9.addWidget(self.c_lineedit)
 
@@ -233,8 +241,10 @@ class Ui_MainWindow(object):
 
         self.l_lineedit = QDoubleSpinBox(self.centralwidget)
         self.l_lineedit.setObjectName(u"l_lineedit")
-        self.l_lineedit.setMinimum(1.000000000000000)
-        self.l_lineedit.setMaximum(100.000000000000000)
+        self.l_lineedit.setDecimals(3)
+        self.l_lineedit.setMinimum(0.000000000000000)
+        self.l_lineedit.setMaximum(1000.000000000000000)
+        self.l_lineedit.setSingleStep(0.001000000000000)
 
         self.horizontalLayout.addWidget(self.l_lineedit)
 
@@ -484,7 +494,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 986, 22))
+        self.menubar.setGeometry(QRect(0, 0, 1179, 33))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")

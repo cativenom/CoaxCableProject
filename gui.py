@@ -340,9 +340,9 @@ class CoaxSolver(QMainWindow):
 
         self.ui.char_impedence_fake.setText(str(truncate(Z_o.imag)))
         self.ui.char_impedence_real.setText(str(truncate(Z_o.real)))
-        self.ui.vswr.setText(str(vswr))
-        self.ui.reflection.setText(str(reflection))
-        self.ui.gain.setText(str(gain))
+        self.ui.vswr.setText(str(truncate(vswr)))
+        self.ui.reflection.setText(str(complex(truncate(reflection.real), truncate(reflection.imag))))
+        self.ui.gain.setText(str(truncate(gain)))
 
         match termination_type:
             case "Open":
@@ -370,7 +370,7 @@ class CoaxSolver(QMainWindow):
             z_input = 1/y_total
             self.ui.input_impedence_real.setText(str(truncate(z_input.real)))
             self.ui.input_impedence_fake.setText(str(truncate(z_input.imag)))
-        self.ui.shunt_stub_length.setText(str(lossy))
+        self.ui.shunt_stub_length.setText(str(truncate(lossy)))
         self.update_diagram()
 
 

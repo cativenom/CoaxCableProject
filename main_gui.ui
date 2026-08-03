@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>986</width>
+    <width>1179</width>
     <height>682</height>
    </rect>
   </property>
@@ -32,11 +32,17 @@
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="freqlineEdit">
+              <property name="decimals">
+               <number>3</number>
+              </property>
               <property name="minimum">
-               <double>1.000000000000000</double>
+               <double>0.000000000000000</double>
               </property>
               <property name="maximum">
-               <double>100.000000000000000</double>
+               <double>1000.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.001000000000000</double>
               </property>
              </widget>
             </item>
@@ -177,11 +183,17 @@
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="a_lineedit">
+              <property name="decimals">
+               <number>3</number>
+              </property>
               <property name="minimum">
-               <double>1.000000000000000</double>
+               <double>0.000000000000000</double>
               </property>
               <property name="maximum">
-               <double>100.000000000000000</double>
+               <double>1000.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.001000000000000</double>
               </property>
              </widget>
             </item>
@@ -214,11 +226,17 @@
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="b_lineedit">
+              <property name="decimals">
+               <number>3</number>
+              </property>
               <property name="minimum">
-               <double>1.000000000000000</double>
+               <double>0.000000000000000</double>
               </property>
               <property name="maximum">
-               <double>100.000000000000000</double>
+               <double>1000.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.001000000000000</double>
               </property>
              </widget>
             </item>
@@ -251,11 +269,17 @@
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="c_lineedit">
+              <property name="decimals">
+               <number>3</number>
+              </property>
               <property name="minimum">
-               <double>1.000000000000000</double>
+               <double>0.000000000000000</double>
               </property>
               <property name="maximum">
-               <double>100.000000000000000</double>
+               <double>1000.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.001000000000000</double>
               </property>
              </widget>
             </item>
@@ -288,11 +312,17 @@
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="l_lineedit">
+              <property name="decimals">
+               <number>3</number>
+              </property>
               <property name="minimum">
-               <double>1.000000000000000</double>
+               <double>0.000000000000000</double>
               </property>
               <property name="maximum">
-               <double>100.000000000000000</double>
+               <double>1000.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.001000000000000</double>
               </property>
              </widget>
             </item>
@@ -580,8 +610,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>986</width>
-     <height>22</height>
+     <width>1179</width>
+     <height>33</height>
     </rect>
    </property>
   </widget>
