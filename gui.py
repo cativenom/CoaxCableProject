@@ -72,6 +72,9 @@ class CoaxSolver(QMainWindow):
             # find = lambda i, index =
             change.currentIndexChanged.connect(self.update_diagram)
 
+        for connection_change in (self.ui.termination_box, ):
+            connection_change.currentIndexChanged.connect(self.update_diagram)
+
         self.ui.solve_btn.clicked.connect(self.solve)
         
         # opening relevant json file with needed data
@@ -139,9 +142,10 @@ class CoaxSolver(QMainWindow):
         self.circuit.addLine(100,0, 100, stub_length, pen=pen)
 
         #Ground lines
-        self.circuit.addLine(95, stub_length+20, 105, stub_length+20, pen=pen)
-        self.circuit.addLine(90, stub_length+10, 110, stub_length + 10, pen=pen)
-        self.circuit.addLine(80, stub_length, 120, stub_length, pen=pen)
+        if self.ui.termination_box.currentText() == "Shorted":
+            self.circuit.addLine(95, stub_length+20, 105, stub_length+20, pen=pen)
+            self.circuit.addLine(90, stub_length+10, 110, stub_length + 10, pen=pen)
+            self.circuit.addLine(80, stub_length, 120, stub_length, pen=pen)
 
         self.circuit.addRect(200, -12.5, 25, 25, pen)
         self.circuit.addEllipse(-12.5, -12.5, 25, 25, pen=pen)
