@@ -72,7 +72,6 @@ class CoaxSolver(QMainWindow):
             # find = lambda i, index =
             change.currentIndexChanged.connect(self.update_diagram)
 
-
         self.ui.solve_btn.clicked.connect(self.solve)
         
         # opening relevant json file with needed data
@@ -116,8 +115,10 @@ class CoaxSolver(QMainWindow):
         self.wave.clear()
         self.scene.clear()
         self.scene.clear()
+        self.circuit.clear()
         self.update_wave()
         self.update_coax()
+        self.update_circuit()
         self.update_circuit()
 
 
@@ -127,13 +128,20 @@ class CoaxSolver(QMainWindow):
 
     def draw_circuit(self):
         pen = QPen(QColor("#89b4fa"), 2)
+        if self.ui.shunt_stub_length.text() != "":
+            stub_length = float(self.ui.shunt_stub_length.text())
+        else:
+            stub_length = 100
+        #Horzontal line
         self.circuit.addLine(0, 0, 200, 0, pen=pen)
 
 
-        self.circuit.addLine(100,0, 100,100, pen=pen)
-        self.circuit.addLine(95, 120, 105, 120, pen=pen)
-        self.circuit.addLine(90, 110, 110, 110, pen=pen)
-        self.circuit.addLine(80, 100, 120, 100, pen=pen)
+        self.circuit.addLine(100,0, 100, stub_length, pen=pen)
+
+        #Ground lines
+        self.circuit.addLine(95, stub_length+20, 105, stub_length+20, pen=pen)
+        self.circuit.addLine(90, stub_length+10, 110, stub_length + 10, pen=pen)
+        self.circuit.addLine(80, stub_length, 120, stub_length, pen=pen)
 
         self.circuit.addRect(200, -12.5, 25, 25, pen)
         self.circuit.addEllipse(-12.5, -12.5, 25, 25, pen=pen)
@@ -157,7 +165,7 @@ class CoaxSolver(QMainWindow):
     def draw_wave(self, freq, ampltuide=20, width=200, points=2000):
         print("Drawing Wave")
         path = QPainterPath()
-        cycles = max(1, 1 + math.log10(freq/1e6))
+        cycles = max(1, 1 + math.log10(freq/10))
         for i in range(points + 1):
             x = (i/points) * width
             y = ampltuide * math.sin(2*math.pi * cycles * (i/points))
@@ -299,7 +307,6 @@ class CoaxSolver(QMainWindow):
         ImZl=float(self.ui.fake_impedence.text())
         freq=float(self.ui.freqlineEdit.text())
         freq = freq * CONVERT_Hz[self.ui.hzUnits.currentText()]
-        beta = (2 * math.pi) / float(length)
 
                 
         print("-------------- Solving --------------")
@@ -344,23 +351,6 @@ class CoaxSolver(QMainWindow):
             case "Shorted":   
                 short = True
                 
-
-            # case "Parellel":
-            #     stub_open = stubSolver(real=float(ReZl), fake=float(ImZl), z0real=Z_o.real, z0fake=Z_o.imag,
-            #                                         beta=beta, gamma=1j * beta, length=float(length), short=False)
-                
-            #     z_open = stub_open.input_impedance()
-
-            #     stub_short = stubSolver(real=float(ReZl), fake=float(ImZl), z0real=Z_o.real, z0fake=Z_o.imag,
-            #                                         beta=beta, gamma=1j * beta, length=float(length), short=True)
-                
-            #     z_short = stub_short.input_impedance()
-            #     z_parallel = (z_open * z_short) / (z_open + z_short)
-        
-            #     self.ui.input_impedence_real.setText(str(truncate(z_parallel.real)))
-            #     self.ui.input_impedence_fake.setText(str(truncate(z_parallel.imag)))
-            # case "Series": 
-                
             case _:
                 print("No connection type selected")
                 # ADD ALERT BOX              
@@ -381,29 +371,8 @@ class CoaxSolver(QMainWindow):
             self.ui.input_impedence_real.setText(str(truncate(z_input.real)))
             self.ui.input_impedence_fake.setText(str(truncate(z_input.imag)))
         self.ui.shunt_stub_length.setText(str(lossy))
-        #elif connection_type == "Parallel"
-            
-        
+        self.update_diagram()
 
-        
-
-        # if both and not shunt:
-        #     print("No stub selected — skipping stub impedance calculation.")
-        #     return
-
-        # if both and shunt:
-        #     stub_open = stubSolver(real=float(ReZl), fake=float(ImZl), z0real=Z_o.real, z0fake=Z_o.imag,
-        #                             beta=beta, gamma=1j * beta, length=float(length), short=False)
-        #     stub_short = stubSolver(real=float(ReZl), fake=float(ImZl), z0real=Z_o.real, z0fake=Z_o.imag,
-        #                              beta=beta, gamma=1j * beta, length=float(length), short=True)
-        #     z_open = stub_open.input_impedance()
-        #     z_short = stub_short.input_impedance()
-        #     z_parallel = (z_open * z_short) / (z_open + z_short)
-        #     print(z_parallel)
-        # else:
-        #     stub = stubSolver(real=float(ReZl), fake=float(ImZl), z0real=Z_o.real, z0fake=Z_o.imag,
-        #                        beta=beta, gamma=1j * beta, length=float(length), short=shunt)
-        #     print(stub.input_impedance())
 
 # helper function to truncate ending zeroes to be only a couple decimal points
 def truncate(num):
