@@ -67,11 +67,11 @@ if __name__ == "__main__":
 
     target = 30j
 
-    lossy_l, lossless_l, delta = short_stub.required_length(target)
+    lossy_l, lossless_l, delta = open_stub.required_length(target)
     print(f"Target Zin: {target}")
     print(f"Lossy stub length:     {lossy_l:.5f} m")
     print(f"Lossless stub length:  {lossless_l:.5f} m")
     print(f"Delta (add/remove):    {delta:+.5f} m")
 
-    check = short_stub.input_impedance(length=lossy_l)
+    check = open_stub.input_impedance(length=lossy_l)
     print(f"Check Zin at lossy length: {check}")

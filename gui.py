@@ -359,8 +359,19 @@ class CoaxSolver(QMainWindow):
         stub = stubSolver(real=float(ReZl), fake=float(ImZl), z0real=Z_o.real, z0fake=Z_o.imag,
                                     beta=solver.gamma.imag, alpha=solver.gamma.real, gamma=solver.gamma, length=float(length), short=short)
         z_stub = stub.input_impedance()
-        lossy, lossless, delta = stub.required_length(Z_o.imag)
-        z_l = float(ReZl) + float(ImZl)
+        z_l = complex(float(z_stub.real), float(z_stub.imag))
+        y_l = 1/z_l
+        y_stub_target = complex(0, -y_l.imag)
+        print("z_target:" + str(ReZl))
+        print("z_target:" + str(ImZl))
+        (1.9859807272318277e-07+2.0108028120943912e-07j)
+        (0.04008027389358085+31.507488753927568j)
+        print("gamma:" + str(solver.gamma))
+        print("z_stub:" + str(z_stub))
+        print("y_l:" + str(y_l))
+        print("z_l:" + str(z_l))
+        print("y_stub:" + str(y_stub_target))
+        
         if connection_type == "Series":
             z_input = z_l + z_stub
             self.ui.input_impedence_real.setText(str(truncate(z_input.real))) #truncate doesn't work?S
@@ -370,7 +381,19 @@ class CoaxSolver(QMainWindow):
             z_input = 1/y_total
             self.ui.input_impedence_real.setText(str(truncate(z_input.real)))
             self.ui.input_impedence_fake.setText(str(truncate(z_input.imag)))
-        self.ui.shunt_stub_length.setText(str(truncate(lossy)))
+            print("z_input:" + str(z_input))
+        
+        if y_stub_target == 0:
+            z_stub_target = None
+        else:
+            z_stub_target = 1/y_stub_target
+        
+        if z_stub_target is not None:
+            lossy, lossless, delta = stub.required_length(Z_o.imag)
+            self.ui.shunt_stub_length.setText(str(lossy))
+        else:
+            self.ui.shunt_stub_length.setText("0")
+
         self.update_diagram()
 
 
@@ -386,11 +409,11 @@ def truncate(num):
     
     # Hey Zack, this is the fixed truncate. It was just an incorrect division/multiplication
     if exponent > 3: 
-        truncated_num = int(num / (10 ** places))
+        truncated_num = int(num / (10))
     elif exponent > -1:
         return int(num)
     else:
-        truncated_num = int(num * (10 ** places))
+        truncated_num = int(num * (10))
     
     # Hey Zack, here's just a simple if case that states that if the real/imaginary
     # is really small in comparison to an exponent to the -9th, it will set it to zero

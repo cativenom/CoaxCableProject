@@ -70,6 +70,7 @@ class Solver:
         self.gc = complex(g_pr, 2 * cmath.pi * self.f * c_pr)
         
         self.gamma = cmath.sqrt(self.rl * self.gc)
+        print(self.gamma)
         
         z0 = cmath.sqrt(self.rl / self.gc)
         return z0
@@ -134,7 +135,7 @@ if __name__ == "__main__":
     # solv = Solver("Copper", "Air", "Shorted", 2, 4, 6, 1, 1*10**9)
     # solv.solve()
 
-    rg58 = Solver("Copper", "Polyethylene", "Dunno", 0.000405, 0.001475, 1, 1, 1000000000)
+    rg58 = Solver("Copper", "Polyethylene", "open", 0.000405, 0.001475, 1, 1, 1000000000)
     rg58.solve()
 
     # rg59 = Solver("Copper", "Polyethylene", "Dunno", 0.00029, 0.00185, 1, 1, 1000000000)
