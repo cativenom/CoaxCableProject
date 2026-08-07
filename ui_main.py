@@ -320,9 +320,36 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_6.addWidget(self.solve_btn)
 
-        self.horizontalSpacer = QSpacerItem(468, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.label_18 = QLabel(self.centralwidget)
+        self.label_18.setObjectName(u"label_18")
 
-        self.horizontalLayout_6.addItem(self.horizontalSpacer)
+        self.horizontalLayout_6.addWidget(self.label_18)
+
+        self.parallel_stub_length = QLineEdit(self.centralwidget)
+        self.parallel_stub_length.setObjectName(u"parallel_stub_length")
+        self.parallel_stub_length.setReadOnly(True)
+
+        self.horizontalLayout_6.addWidget(self.parallel_stub_length)
+
+        self.label_24 = QLabel(self.centralwidget)
+        self.label_24.setObjectName(u"label_24")
+
+        self.horizontalLayout_6.addWidget(self.label_24)
+
+        self.label = QLabel(self.centralwidget)
+        self.label.setObjectName(u"label")
+
+        self.horizontalLayout_6.addWidget(self.label)
+
+        self.series_stub_length = QLineEdit(self.centralwidget)
+        self.series_stub_length.setObjectName(u"series_stub_length")
+
+        self.horizontalLayout_6.addWidget(self.series_stub_length)
+
+        self.label_4 = QLabel(self.centralwidget)
+        self.label_4.setObjectName(u"label_4")
+
+        self.horizontalLayout_6.addWidget(self.label_4)
 
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_6)
@@ -400,22 +427,6 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_13 = QHBoxLayout()
         self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
-        self.label_18 = QLabel(self.centralwidget)
-        self.label_18.setObjectName(u"label_18")
-
-        self.horizontalLayout_13.addWidget(self.label_18)
-
-        self.shunt_stub_length = QLineEdit(self.centralwidget)
-        self.shunt_stub_length.setObjectName(u"shunt_stub_length")
-        self.shunt_stub_length.setReadOnly(True)
-
-        self.horizontalLayout_13.addWidget(self.shunt_stub_length)
-
-        self.label_24 = QLabel(self.centralwidget)
-        self.label_24.setObjectName(u"label_24")
-
-        self.horizontalLayout_13.addWidget(self.label_24)
-
 
         self.horizontalLayout_19.addLayout(self.horizontalLayout_13)
 
@@ -494,7 +505,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1179, 20))
+        self.menubar.setGeometry(QRect(0, 0, 1179, 19))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -520,14 +531,16 @@ class Ui_MainWindow(object):
         self.label_13.setText(QCoreApplication.translate("MainWindow", u"Solve for", None))
         self.label_25.setText(QCoreApplication.translate("MainWindow", u"Shunt", None))
         self.solve_btn.setText(QCoreApplication.translate("MainWindow", u"Solve", None))
+        self.label_18.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>Parallel Stub Length = </p></body></html>", None))
+        self.label_24.setText(QCoreApplication.translate("MainWindow", u"m", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"Series Length = ", None))
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"m", None))
         self.label_12.setText(QCoreApplication.translate("MainWindow", u"Z<sub>o = ", None))
         self.label_14.setText(QCoreApplication.translate("MainWindow", u"+ j", None))
         self.label_10.setText(QCoreApplication.translate("MainWindow", u"\u03a9", None))
         self.label_16.setText(QCoreApplication.translate("MainWindow", u"Z<sub>in = ", None))
         self.label_17.setText(QCoreApplication.translate("MainWindow", u"+ j", None))
         self.label_15.setText(QCoreApplication.translate("MainWindow", u"\u03a9", None))
-        self.label_18.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>Shunt Stub Length = </p></body></html>", None))
-        self.label_24.setText(QCoreApplication.translate("MainWindow", u"m", None))
         self.label_23.setText(QCoreApplication.translate("MainWindow", u"Unmatched Line:", None))
         self.label_20.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>\u0393 =</p></body></html>", None))
         self.label_19.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>VSWR =</p></body></html>", None))
