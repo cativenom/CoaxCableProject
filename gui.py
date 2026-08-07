@@ -131,8 +131,8 @@ class CoaxSolver(QMainWindow):
 
     def draw_circuit(self):
         pen = QPen(QColor("#89b4fa"), 2)
-        if self.ui.shunt_stub_length.text() != "":
-            stub_length = float(self.ui.shunt_stub_length.text())
+        if self.ui.parallel_stub_length.text() != "":
+            stub_length = float(self.ui.parallel_stub_length.text())
         else:
             stub_length = 100
         #Horzontal line
@@ -388,8 +388,7 @@ class CoaxSolver(QMainWindow):
         y_stub_target = complex(0, -y_l.imag)
         print("z_target:" + str(ReZl))
         print("z_target:" + str(ImZl))
-        (1.9859807272318277e-07+2.0108028120943912e-07j)
-        (0.04008027389358085+31.507488753927568j)
+
         print("gamma:" + str(solver.gamma))
         print("z_stub:" + str(z_stub))
         print("y_l:" + str(y_l))
@@ -414,9 +413,11 @@ class CoaxSolver(QMainWindow):
         
         if z_stub_target is not None:
             lossy, lossless, delta = stub.required_length(Z_o.imag)
-            self.ui.shunt_stub_length.setText(str(lossy))
+            self.ui.parallel_stub_length.setText(str(lossy))
+            self.ui.series_stub_length.setText(str(delta))
         else:
-            self.ui.shunt_stub_length.setText("0")
+            self.ui.parallel_stub_length.setText("0")
+            self.ui.series_stub_length.setText("0")
 
         self.update_diagram()
 
