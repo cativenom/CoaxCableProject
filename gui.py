@@ -150,8 +150,6 @@ class CoaxSolver(QMainWindow):
         self.circuit.addRect(200, -12.5, 25, 25, pen)
         self.circuit.addEllipse(-12.5, -12.5, 25, 25, pen=pen)
 
-        #circuit_rect = self.circuit.itemsBoundingRect()
-        #self.ui.circuit_view.fitInView(circuit_rect, Qt.IgnoreAspectRatio)
 
 
 
@@ -289,13 +287,13 @@ class CoaxSolver(QMainWindow):
 
         a=float(self.ui.a_lineedit.text()) 
         if a == 0:
-            QMessageBox.warning(self, "Zero Error", "B cannot be zero")
+            QMessageBox.warning(self, "Zero Error", "Inner conductor cannot be zero")
             return 0
 
         a = a * CONVERT_M[self.ui.a_units.currentText()]
         b = float(self.ui.b_lineedit.text()) 
         if b == 0:
-            QMessageBox.warning(self, "Zero Error", "B cannot be zero")
+            QMessageBox.warning(self, "Zero Error", "Outer conductor cannot be zero")
             return 0
         b = b * CONVERT_M[self.ui.b_units.currentText()]
         c = float(self.ui.c_lineedit.text())
@@ -304,13 +302,34 @@ class CoaxSolver(QMainWindow):
             return 0
         c = c * CONVERT_M[self.ui.c_units.currentText()]
 
+        if a >= b:
+            QMessageBox.warning(self, "Error", "Inner conductor cannot be larger than outer conductor")
+            return 0
+        if b >= c:
+            QMessageBox.warning(self, "Error", "Outer conductor cannot be larger than C")
+            return 0
+        if a >= c:
+            QMessageBox.warning(self, "Error", "Inner conductor cannot be larger than C")
+            return 0
+        if a <= 0 or b <= 0 or c <= 0:
+            QMessageBox.warning(self, "Error", "All dimensions must be greater than zero")
+            return 0
 
         length=float(self.ui.l_lineedit.text())
+        if length <= 0:
+            QMessageBox.warning(self, "Zero Error", "Length cannot be zero")
+            return 0
         length = length * CONVERT_M[self.ui.length_units.currentText()]
         ReZl=float(self.ui.real_impedence.text()) 
         ImZl=float(self.ui.fake_impedence.text())
-        # freq=float(self.ui.freqlineEdit.text())
-        freq = float(self.ui.freqlineEdit.text()) * CONVERT_Hz[self.ui.hzUnits.currentText()]
+        if ReZl == 0 and ImZl == 0:
+            QMessageBox.warning(self, "Zero Error", "Impedance cannot be zero")
+            return 0
+        freq = float(self.ui.freqlineEdit.text()) 
+        if freq == 0:
+            QMessageBox.warning(self, "Zero Error", "Frequency cannot be zero")
+            return 0
+        freq = freq* CONVERT_Hz[self.ui.hzUnits.currentText()]
 
                 
         print("-------------- Solving --------------")
@@ -357,7 +376,8 @@ class CoaxSolver(QMainWindow):
                 
             case _:
                 print("No connection type selected")
-                # ADD ALERT BOX              
+                QMessageBox.warning(self, "NaN Error", "No connection type selected")
+    
 
         # solving for shunt stub
         stub = stubSolver(real=float(ReZl), fake=float(ImZl), z0real=Z_o.real, z0fake=Z_o.imag,
