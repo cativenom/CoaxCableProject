@@ -8,6 +8,10 @@
 ## Installation
 
 ```bash
+git clone https://github.com/cativenom/CoaxCableProject
+```
+
+```bash
 pip install -r requirements.txt
 ```
 
